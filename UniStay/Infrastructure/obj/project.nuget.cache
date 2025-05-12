@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gC6K4V/ajqLsifih0aj4SPwWhB1hueocb1Wr9RCKp0SARbozcc6X09/yrvJ+bZvuMuA3bi8nX7RcGjTfYTv2Sw==",
+  "dgSpecHash": "EsFPOrWBgiI=",
   "success": true,
-  "projectFilePath": "F:\\Навчання\\UniStay\\UniStay\\Infrastructure\\Infrastructure.csproj",
+  "projectFilePath": "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ackerman\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\docker.dotnet.enhanced\\3.126.1\\docker.dotnet.enhanced.3.126.1.nupkg.sha512",

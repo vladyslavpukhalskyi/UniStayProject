@@ -10,21 +10,17 @@ namespace Infrastructure.Persistence
     {
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            // Налаштування контексту бази даних
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Default"))
                     .UseSnakeCaseNamingConvention());
-
-            // Ініціалізація бази даних
+            
             services.AddScoped<ApplicationDbContextInitialiser>();
-
-            // Додавання репозиторіїв
+            
             services.AddRepositories();
         }
 
         private static void AddRepositories(this IServiceCollection services)
         {
-            // Додавання репозиторіїв для кожної сутності
             services.AddScoped<IAmenitiesRepository, AmenitiesRepository>();
             services.AddScoped<IFavoritesRepository, FavoritesRepository>();
             services.AddScoped<IListingImagesRepository, ListingImagesRepository>();

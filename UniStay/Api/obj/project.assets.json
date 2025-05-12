@@ -4591,11 +4591,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Навчання\\UniStay\\UniStay\\Api\\Api.csproj",
+      "projectUniqueName": "F:\\Навчання\\UniStayProject\\UniStay\\Api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Api\\Api.csproj",
+      "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Api\\Api.csproj",
       "packagesPath": "C:\\Users\\Ackerman\\.nuget\\packages\\",
-      "outputPath": "F:\\Навчання\\UniStay\\UniStay\\Api\\obj\\",
+      "outputPath": "F:\\Навчання\\UniStayProject\\UniStay\\Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ackerman\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4612,8 +4612,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "F:\\Навчання\\UniStay\\UniStay\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Infrastructure\\Infrastructure.csproj"
+            "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }

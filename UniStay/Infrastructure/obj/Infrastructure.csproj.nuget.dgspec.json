@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Навчання\\UniStay\\UniStay\\Infrastructure\\Infrastructure.csproj": {}
+    "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj": {}
   },
   "projects": {
-    "F:\\Навчання\\UniStay\\UniStay\\Application\\Application.csproj": {
+    "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Навчання\\UniStay\\UniStay\\Application\\Application.csproj",
+        "projectUniqueName": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Application\\Application.csproj",
+        "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\Ackerman\\.nuget\\packages\\",
-        "outputPath": "F:\\Навчання\\UniStay\\UniStay\\Application\\obj\\",
+        "outputPath": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ackerman\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj": {
-                "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj"
+              "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj": {
+                "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj"
               }
             }
           }
@@ -111,14 +111,14 @@
         }
       }
     },
-    "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj": {
+    "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj",
+        "projectUniqueName": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj",
+        "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\Ackerman\\.nuget\\packages\\",
-        "outputPath": "F:\\Навчання\\UniStay\\UniStay\\Domain\\obj\\",
+        "outputPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ackerman\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -210,14 +210,14 @@
         }
       }
     },
-    "F:\\Навчання\\UniStay\\UniStay\\Infrastructure\\Infrastructure.csproj": {
+    "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Навчання\\UniStay\\UniStay\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Ackerman\\.nuget\\packages\\",
-        "outputPath": "F:\\Навчання\\UniStay\\UniStay\\Infrastructure\\obj\\",
+        "outputPath": "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ackerman\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -234,11 +234,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "F:\\Навчання\\UniStay\\UniStay\\Application\\Application.csproj": {
-                "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Application\\Application.csproj"
+              "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj": {
+                "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj"
               },
-              "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj": {
-                "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj"
+              "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj": {
+                "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj"
               }
             }
           }

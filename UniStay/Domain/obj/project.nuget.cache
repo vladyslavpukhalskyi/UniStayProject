@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oYzwwfaBDffhwKjpTNwhddauv2PAGn9aaydAwBscMQczENPmRN0n4IsTZ6RVG+CiD8ZhyBN4Ff85GgwU/Puglg==",
+  "dgSpecHash": "QohuWJ7WsVI=",
   "success": true,
-  "projectFilePath": "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj",
+  "projectFilePath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ackerman\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\fluentassertions\\8.0.1\\fluentassertions.8.0.1.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bLGzqSAJPLKh9KijPlIVRAm1ydwS3v3Jnb+V51kEUR1lysIEl8RgzaPJfuf2uOlfspWk+5z+P6SyuAyo9xRLxQ==",
+  "dgSpecHash": "4/p0OAKkH8w=",
   "success": true,
-  "projectFilePath": "F:\\Навчання\\UniStay\\UniStay\\Application\\Application.csproj",
+  "projectFilePath": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ackerman\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\efcore.namingconventions\\9.0.0\\efcore.namingconventions.9.0.0.nupkg.sha512",

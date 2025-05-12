@@ -1529,11 +1529,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj",
+      "projectUniqueName": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "F:\\Навчання\\UniStay\\UniStay\\Domain\\Domain.csproj",
+      "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj",
       "packagesPath": "C:\\Users\\Ackerman\\.nuget\\packages\\",
-      "outputPath": "F:\\Навчання\\UniStay\\UniStay\\Domain\\obj\\",
+      "outputPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ackerman\\AppData\\Roaming\\NuGet\\NuGet.Config",
