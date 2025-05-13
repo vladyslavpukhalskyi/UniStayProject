@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WkZzM75K0s4=",
+  "dgSpecHash": "BdSNZ5V0wQo=",
   "success": true,
   "projectFilePath": "F:\\Навчання\\UniStayProject\\UniStay\\Api\\Api.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,7 @@
     "C:\\Users\\Ackerman\\.nuget\\packages\\npgsql\\9.0.2\\npgsql.9.0.2.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\9.0.3\\npgsql.entityframeworkcore.postgresql.9.0.3.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\optional\\5.0.0-alpha\\optional.5.0.0-alpha.nupkg.sha512",
+    "C:\\Users\\Ackerman\\.nuget\\packages\\optional.async\\1.3.0\\optional.async.1.3.0.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\sharpziplib\\1.4.2\\sharpziplib.1.4.2.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\ssh.net\\2024.1.0\\ssh.net.2024.1.0.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\swashbuckle.aspnetcore\\7.2.0\\swashbuckle.aspnetcore.7.2.0.nupkg.sha512",

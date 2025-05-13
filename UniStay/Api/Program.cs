@@ -39,7 +39,7 @@ builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 // 4. Реєстрація сервісів з Infrastructure шару
 // Цей метод має реєструвати репозиторії (IUsersRepository -> UsersRepository, etc.)
 // та інші сервіси інфраструктури (наприклад, IPasswordHasher).
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 // 5. Реєстрація сервісів з Application шару
 // Цей метод (з Application/DependencyInjection.cs) реєструє MediatR

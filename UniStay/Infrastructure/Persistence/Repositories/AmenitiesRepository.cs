@@ -1,21 +1,20 @@
 // Файл: Infrastructure/Persistence/Repositories/AmenitiesRepository.cs
-using Application.Common.Interfaces.Repositories; // Тільки репозиторій
+using Application.Common.Interfaces.Queries; // <--- ДОДАНО
+using Application.Common.Interfaces.Repositories;
 using Domain.Amenities;
-using Domain.Listings; // Може бути потрібен для Include, якщо треба
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Optional;
+using Optional.Async.Extensions; // Для .SomeNotNullAsync()
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-
 namespace Infrastructure.Persistence.Repositories
 {
-    // Прибираємо IAmenitiesQueries, якщо репозиторій тільки для команд
-    public class AmenitiesRepository : IAmenitiesRepository
+    public class AmenitiesRepository : IAmenitiesRepository, IAmenitiesQueries // <--- ДОДАНО IAmenitiesQueries
     {
         private readonly ApplicationDbContext _context;
 
@@ -24,11 +23,12 @@ namespace Infrastructure.Persistence.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        // --- Методи IAmenitiesRepository ---
         public async Task<Amenity> Add(Amenity amenity, CancellationToken cancellationToken)
         {
             if (amenity == null) throw new ArgumentNullException(nameof(amenity));
             await _context.Amenities.AddAsync(amenity, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken); // Зберігаємо зміни тут
             return amenity;
         }
 
@@ -36,7 +36,7 @@ namespace Infrastructure.Persistence.Repositories
         {
             if (amenity == null) throw new ArgumentNullException(nameof(amenity));
             _context.Amenities.Update(amenity);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken); // Зберігаємо зміни тут
             return amenity;
         }
 
@@ -44,51 +44,70 @@ namespace Infrastructure.Persistence.Repositories
         {
             if (amenity == null) throw new ArgumentNullException(nameof(amenity));
             _context.Amenities.Remove(amenity);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken); // Зберігаємо зміни тут
             return amenity;
         }
 
-        public async Task<Option<Amenity>> GetById(AmenityId id, CancellationToken cancellationToken)
+        // GetById для IAmenitiesRepository (може використовуватися командами)
+        async Task<Option<Amenity>> IAmenitiesRepository.GetById(AmenityId id, CancellationToken cancellationToken)
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
-            // Прибираємо Include(a => a.Listings), якщо він не потрібен для команд Update/Delete
             var entity = await _context.Amenities
-                // .Include(a => a.Listings) // Розкоментуйте, якщо потрібно для логіки команд
+                // Немає .Include(a => a.Listings), оскільки Amenity не має прямого зв'язку для команд
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             return entity.SomeNotNull();
         }
-
-        // Оновлена реалізація GetByTitleAsync
+        
         public async Task<Option<Amenity>> GetByTitleAsync(string title, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
-                return Option.None<Amenity>(); // Повертаємо None замість винятку
+                return Option.None<Amenity>();
             }
-            // Порівняння без урахування регістру, без Include, без AsNoTracking
             var amenity = await _context.Amenities
-                .FirstOrDefaultAsync(a => a.Title.ToLower() == title.ToLower(), cancellationToken);
+                .FirstOrDefaultAsync(a => EF.Functions.ILike(a.Title, title), cancellationToken); // ILike для пошуку без регістру
             return amenity.SomeNotNull();
         }
-
-        // Нова реалізація GetByIdsAsync
+        
         public async Task<IReadOnlyList<Amenity>> GetByIdsAsync(IEnumerable<AmenityId> ids, CancellationToken cancellationToken)
         {
             if (ids == null || !ids.Any())
             {
-                return new List<Amenity>().AsReadOnly(); // Повертаємо порожній список
+                return new List<Amenity>().AsReadOnly();
             }
-            // Отримуємо список значень Guid з AmenityId
             var guidIds = ids.Select(id => id.Value).Distinct().ToList();
-
-            // Шукаємо зручності, ID яких є у списку guidIds
             return await _context.Amenities
-                .Where(a => guidIds.Contains(a.Id.Value)) // Використовуємо Contains для пошуку за списком
+                .Where(a => guidIds.Contains(a.Id.Value))
                 .ToListAsync(cancellationToken);
-                // Тут не додаємо AsNoTracking, оскільки ці сутності можуть бути використані для оновлення Listing
         }
 
-        // Метод GetAll видалено, оскільки прибрали IAmenitiesQueries
-        // public async Task<IReadOnlyList<Amenity>> GetAll(...) { ... }
+        // --- Методи IAmenitiesQueries ---
+        public async Task<IReadOnlyList<Amenity>> GetAll(CancellationToken cancellationToken)
+        {
+            return await _context.Amenities.AsNoTracking().ToListAsync(cancellationToken);
+        }
+
+        // GetById для IAmenitiesQueries (тільки для читання)
+        async Task<Option<Amenity>> IAmenitiesQueries.GetById(AmenityId id, CancellationToken cancellationToken)
+        {
+            if (id == null) throw new ArgumentNullException(nameof(id));
+            var entity = await _context.Amenities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return entity.SomeNotNull();
+        }
+        
+        // GetByTitle для IAmenitiesQueries (тільки для читання)
+        async Task<Option<Amenity>> IAmenitiesQueries.GetByTitle(string title, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                return Option.None<Amenity>();
+            }
+            var amenity = await _context.Amenities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => EF.Functions.ILike(a.Title, title), cancellationToken); // ILike для пошуку без регістру
+            return amenity.SomeNotNull();
+        }
     }
 }
