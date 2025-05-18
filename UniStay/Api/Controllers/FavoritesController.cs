@@ -148,7 +148,7 @@ namespace Api.Controllers
 
             return Ok(FavoriteDto.FromDomainModel(favoriteRecord));
         }
-
+    
         // GET: api/favorites/{favoriteId} (Отримати конкретний запис Favorite за його ID)
         // Цей ендпоінт може бути менш корисним для клієнта, але може бути для адмін. цілей.
         [HttpGet("favorites/{favoriteId:guid}")]

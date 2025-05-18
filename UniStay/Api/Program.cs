@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Сервіси API (Swagger/OpenAPI)
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddApplication();
 builder.Services.AddSwaggerGen(options =>
 {
     // Тут можна додати конфігурацію Swagger, наприклад, для JWT

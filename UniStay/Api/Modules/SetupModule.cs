@@ -15,11 +15,12 @@ namespace Api.Modules // Або інший простір імен, який в�
         private static void AddValidators(this IServiceCollection services)
         {
             // Реєструє FluentValidation для автоматичної валідації моделей ASP.NET Core
-            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationAutoValidation()
+                .AddValidatorsFromAssemblyContaining<Program>();
 
             // Сканує збірку, в якій знаходиться клас Program (зазвичай це ваш API проєкт)
             // та реєструє всі валідатори, що успадковують AbstractValidator<T>
-            services.AddValidatorsFromAssemblyContaining<Program>();
+
             // Якщо ваші валідатори в іншому проекті (наприклад, Application),
             // вам потрібно вказати клас-маркер з того проекту:
             // services.AddValidatorsFromAssemblyContaining<Application.Common.Interfaces.IApplicationDbContext>(); // Приклад

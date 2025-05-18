@@ -48,13 +48,13 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.3.0, )"
-            },
-            "FluentValidation.DependencyInjectionExtensions": {
-              "target": "Package",
-              "version": "[12.0.0-preview1, )"
             },
             "MediatR": {
               "target": "Package",
@@ -168,13 +168,13 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.3.0, )"
-            },
-            "FluentValidation.DependencyInjectionExtensions": {
-              "target": "Package",
-              "version": "[12.0.0-preview1, )"
             },
             "MediatR": {
               "target": "Package",
@@ -267,13 +267,13 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.3.0, )"
-            },
-            "FluentValidation.DependencyInjectionExtensions": {
-              "target": "Package",
-              "version": "[12.0.0-preview1, )"
             },
             "MediatR": {
               "target": "Package",
@@ -377,13 +377,13 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.3.0, )"
-            },
-            "FluentValidation.DependencyInjectionExtensions": {
-              "target": "Package",
-              "version": "[12.0.0-preview1, )"
             },
             "MediatR": {
               "target": "Package",

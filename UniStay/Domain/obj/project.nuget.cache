@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "QohuWJ7WsVI=",
+  "dgSpecHash": "XmPIcVxWFxw=",
   "success": true,
   "projectFilePath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ackerman\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\fluentassertions\\8.0.1\\fluentassertions.8.0.1.nupkg.sha512",
-    "C:\\Users\\Ackerman\\.nuget\\packages\\fluentvalidation\\12.0.0-preview1\\fluentvalidation.12.0.0-preview1.nupkg.sha512",
+    "C:\\Users\\Ackerman\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
-    "C:\\Users\\Ackerman\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.0.0-preview1\\fluentvalidation.dependencyinjectionextensions.12.0.0-preview1.nupkg.sha512",
+    "C:\\Users\\Ackerman\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\mediatr\\12.4.1\\mediatr.12.4.1.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\Ackerman\\.nuget\\packages\\microsoft.codecoverage\\17.14.0-preview-25107-01\\microsoft.codecoverage.17.14.0-preview-25107-01.nupkg.sha512",
