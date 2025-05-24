@@ -1,40 +1,50 @@
-// Файл: Application/Common/Result.cs
+// Файл: Application/Common/Models/Result.cs
 using System;
 
-namespace Application.Common
+namespace Application.Common // <<<< ОНОВЛЕНО ТУТ!
 {
-    public readonly struct Result<TValue, TError>
+    // Базовий клас для Result, який вказує на успіх або помилку
+    public class Result<TValue, TError>
     {
-        private readonly TValue? _value;
-        private readonly TError? _error;
+        private readonly TValue _value;
+        private readonly TError _error;
 
-        public bool IsError { get; }
-        public bool IsSuccess => !IsError;
+        public bool IsSuccess { get; }
+        public bool IsFailure => !IsSuccess;
 
         private Result(TValue value)
         {
-            IsError = false;
+            IsSuccess = true;
             _value = value;
-            _error = default;
+            _error = default!;
         }
 
         private Result(TError error)
         {
-            IsError = true;
-            _value = default;
+            IsSuccess = false;
+            _value = default!;
             _error = error;
         }
 
-        public static implicit operator Result<TValue, TError>(TValue value) => new(value);
-        public static implicit operator Result<TValue, TError>(TError error) => new(error);
+        public static Result<TValue, TError> Success(TValue value) => new(value);
+        public static Result<TValue, TError> Failure(TError error) => new(error);
+
+        public TValue Value => IsSuccess
+            ? _value
+            : throw new InvalidOperationException("Cannot access Value when IsSuccess is false. Check IsSuccess property first.");
+
+        public TError Error => IsFailure
+            ? _error
+            : throw new InvalidOperationException("Cannot access Error when IsFailure is false. Check IsFailure property first.");
 
         public TResult Match<TResult>(
-            Func<TValue, TResult> success,
-            Func<TError, TResult> failure) =>
-            IsSuccess ? success(_value!) : failure(_error!);
-            
-        // Додаткові властивості для прямого доступу (використовувати обережно)
-        public TValue Value => IsSuccess ? _value! : throw new InvalidOperationException("Result does not contain a success value.");
-        public TError Error => IsError ? _error! : throw new InvalidOperationException("Result does not contain an error value.");
+            Func<TValue, TResult> onSuccess,
+            Func<TError, TResult> onFailure)
+        {
+            return IsSuccess ? onSuccess(_value) : onFailure(_error);
+        }
+
+        public static implicit operator Result<TValue, TError>(TValue value) => Success(value);
+        public static implicit operator Result<TValue, TError>(TError error) => Failure(error);
     }
 }

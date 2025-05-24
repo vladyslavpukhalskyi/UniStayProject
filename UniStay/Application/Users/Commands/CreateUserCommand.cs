@@ -1,6 +1,6 @@
 // Файл: Application/Users/Commands/CreateUserCommand.cs
 using Application.Common; // Для Result<TSuccess, TError>
-using Application.Common.Interfaces; // Для IPasswordHasher
+using Application.Common.Interfaces.Auth; // <<<< ЗМІНЕНО: Використовуємо IPasswordHash з цього простору імен
 using Application.Common.Interfaces.Repositories; // Для IUsersRepository
 using Application.Users.Exceptions; // Для UserException та підтипів
 using Domain.Users; // Для User, UserId, UserEnums
@@ -8,6 +8,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Common;
 
 namespace Application.Users.Commands
 {
@@ -27,9 +28,10 @@ namespace Application.Users.Commands
     /// <summary>
     /// Обробник команди CreateUserCommand.
     /// </summary>
+    // Зверніть увагу на зміну IPasswordHasher на IPasswordHash
     public class CreateUserCommandHandler(
         IUsersRepository usersRepository,
-        IPasswordHasher passwordHasher) // Додаємо залежність для хешування пароля
+        IPasswordHash passwordHash) // <<<< ЗМІНЕНО: Використовуємо IPasswordHash
         : IRequestHandler<CreateUserCommand, Result<User, UserException>>
     {
         public async Task<Result<User, UserException>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -61,7 +63,7 @@ namespace Application.Users.Commands
             try
             {
                 // 3. Захешувати пароль
-                var hashedPassword = passwordHasher.HashPassword(request.Password);
+                var hashedPassword = passwordHash.HashPassword(request.Password); // <<<< ЗМІНЕНО: Використовуємо passwordHash
 
                 // 4. Створити сутність User
                 var user = User.New(
@@ -78,7 +80,7 @@ namespace Application.Users.Commands
                 // 5. Додати користувача в репозиторій
                 var addedUser = await usersRepository.Add(user, cancellationToken);
                 // Implicit conversion from User to Result<User, UserException>
-                return addedUser; 
+                return addedUser;
             }
             catch (Exception exception)
             {

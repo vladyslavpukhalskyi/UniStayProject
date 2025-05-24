@@ -239,21 +239,22 @@ F:\Навчання\UniStay\UniStay\Api\bin\Debug\net8.0\Application.pdb
 F:\Навчання\UniStay\UniStay\Api\bin\Debug\net8.0\Domain.pdb
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\.msCoverageSourceRootsMapping_Api
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\CoverletSourceRootsMapping_Api
-F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\testhost.exe
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\testhost.dll
-F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\appsettings.Development.json
-F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\appsettings.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Infrastructure.deps.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Infrastructure.runtimeconfig.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Application.deps.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Application.runtimeconfig.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Domain.deps.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Domain.runtimeconfig.json
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\testhost.exe
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\appsettings.Development.json
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\appsettings.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Api.exe
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Api.deps.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Api.runtimeconfig.json
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Api.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Api.pdb
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\BCrypt.Net-Next.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Docker.DotNet.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Docker.DotNet.X509.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\EFCore.NamingConventions.dll
@@ -264,6 +265,7 @@ F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\FluentValidation
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Humanizer.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\MediatR.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\MediatR.Contracts.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.Build.Locator.dll
@@ -288,6 +290,12 @@ F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.Extens
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.OpenApi.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.TestPlatform.CoreUtilities.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Microsoft.TestPlatform.PlatformAbstractions.dll
@@ -301,6 +309,7 @@ F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Newtonsoft.Json.
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Npgsql.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Optional.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Optional.Async.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\ICSharpCode.SharpZipLib.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Renci.SshNet.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
@@ -313,6 +322,7 @@ F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\System.Compositi
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\System.Composition.Runtime.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\System.Composition.TypedParts.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\System.IO.Pipelines.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\System.Text.Encodings.Web.dll
 F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\System.Text.Json.dll
@@ -477,4 +487,3 @@ F:\Навчання\UniStayProject\UniStay\Api\obj\Debug\net8.0\refint\Api.dll
 F:\Навчання\UniStayProject\UniStay\Api\obj\Debug\net8.0\Api.pdb
 F:\Навчання\UniStayProject\UniStay\Api\obj\Debug\net8.0\Api.genruntimeconfig.cache
 F:\Навчання\UniStayProject\UniStay\Api\obj\Debug\net8.0\ref\Api.dll
-F:\Навчання\UniStayProject\UniStay\Api\bin\Debug\net8.0\Optional.Async.dll

@@ -122,10 +122,10 @@ F:\Навчання\UniStay\UniStay\Application\obj\Debug\net8.0\Application.gen
 F:\Навчання\UniStay\UniStay\Application\obj\Debug\net8.0\ref\Application.dll
 F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\.msCoverageSourceRootsMapping_Application
 F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\CoverletSourceRootsMapping_Application
-F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\testhost.exe
 F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\testhost.dll
 F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\Domain.deps.json
 F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\Domain.runtimeconfig.json
+F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\testhost.exe
 F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\Application.deps.json
 F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\Application.runtimeconfig.json
 F:\Навчання\UniStayProject\UniStay\Application\bin\Debug\net8.0\Application.dll

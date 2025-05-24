@@ -1,11 +1,11 @@
 // Файл: Infrastructure/Persistence/Repositories/UsersRepository.cs
-using Application.Common.Interfaces.Queries; // <--- ДОДАНО
+using Application.Common.Interfaces.Queries;
 using Application.Common.Interfaces.Repositories;
 using Domain.Users;
-using Infrastructure.Persistence; // <--- ДОДАНО
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Optional;
-using Optional.Async.Extensions;
+using Optional.Async.Extensions; // Переконайтесь, що цей пакет встановлено, якщо використовуєте SomeNotNull()
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class UsersRepository : IUsersRepository, IUsersQueries // <--- ДОДАНО IUsersQueries
+    public class UsersRepository : IUsersRepository, IUsersQueries
     {
         private readonly ApplicationDbContext _context;
 
@@ -23,7 +23,8 @@ namespace Infrastructure.Persistence.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        // --- Методи IUsersRepository ---
+        // --- Методи IUsersRepository (для операцій запису/зміни) ---
+        // Ці методи повертають відстежувані сутності, якщо вони використовуються для модифікації.
         public async Task<User> Add(User user, CancellationToken cancellationToken)
         {
             await _context.Users.AddAsync(user, cancellationToken);
@@ -33,7 +34,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<User> Update(User user, CancellationToken cancellationToken)
         {
-            _context.Users.Update(user);
+            _context.Users.Update(user); // EF Core почне відстежувати сутність, якщо вона ще не відстежується
             await _context.SaveChangesAsync(cancellationToken);
             return user;
         }
@@ -44,15 +45,15 @@ namespace Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             return user;
         }
-        
-        // GetById для IUsersRepository
+
+        // Явна реалізація GetById для IUsersRepository (зазвичай повертає відстежуваний об'єкт для подальших змін)
         async Task<Option<User>> IUsersRepository.GetById(UserId id, CancellationToken cancellationToken)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
             return user.SomeNotNull();
         }
-        
-        // GetByEmail для IUsersRepository
+
+        // Явна реалізація GetByEmail для IUsersRepository (також може повертати відстежуваний об'єкт)
         async Task<Option<User>> IUsersRepository.GetByEmail(string email, CancellationToken cancellationToken)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
@@ -60,13 +61,14 @@ namespace Infrastructure.Persistence.Repositories
         }
 
 
-        // --- Методи IUsersQueries ---
+        // --- Методи IUsersQueries (для операцій читання) ---
+        // Ці методи використовують AsNoTracking(), оскільки вони призначені лише для читання даних.
         public async Task<IReadOnlyList<User>> GetAll(CancellationToken cancellationToken)
         {
             return await _context.Users.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        // GetById для IUsersQueries
+        // Явна реалізація GetById для IUsersQueries (не відстежується)
         async Task<Option<User>> IUsersQueries.GetById(UserId id, CancellationToken cancellationToken)
         {
             var user = await _context.Users
@@ -75,7 +77,7 @@ namespace Infrastructure.Persistence.Repositories
             return user.SomeNotNull();
         }
 
-        // GetByEmail для IUsersQueries
+        // Явна реалізація GetByEmail для IUsersQueries (не відстежується)
         async Task<Option<User>> IUsersQueries.GetByEmail(string email, CancellationToken cancellationToken)
         {
             var user = await _context.Users
