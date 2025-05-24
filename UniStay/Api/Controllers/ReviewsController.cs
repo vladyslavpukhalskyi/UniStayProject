@@ -14,7 +14,8 @@ using Domain.Reviews; // Для ReviewId
 using Domain.Listings; // Для ListingId
 using Domain.Users;   // Для UserId
 using Api.Modules.Errors; // Для ReviewErrorHandler.ToObjectResult()
-using Optional;
+using Microsoft.AspNetCore.Authorization; // <<<< ДОДАНО
+using Optional; // Для Optional<T>
 
 namespace Api.Controllers
 {
@@ -67,7 +68,7 @@ namespace Api.Controllers
 
         // POST: api/listings/{listingId}/reviews
         [HttpPost("listings/{listingId:guid}/reviews")]
-        // [Authorize] // TODO: Додайте авторизацію
+        [Authorize] // <<<< РОЗКОМЕНТОВАНО: Цей метод вимагає авторизації
         [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -78,21 +79,20 @@ namespace Api.Controllers
             [FromBody] CreateReviewDto requestDto,
             CancellationToken cancellationToken)
         {
-            // TODO: Отримати UserId з контексту аутентифікованого користувача
-            // var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            // if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
-            // {
-            //     return Unauthorized(new { Message = "User is not authenticated." });
-            // }
-            // Для прикладу, тимчасово:
-            Guid authenticatedUserId = Guid.NewGuid(); // ЗАМІНІТЬ ЦЕ НА РЕАЛЬНЕ ОТРИМАННЯ ID
+            // ОТРИМУЄМО UserId З КОНТЕКСТУ АУТЕНТИФІКОВАНОГО КОРИСТУВАЧА
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
+            {
+                // Якщо користувач не автентифікований або ID неправильний (хоча [Authorize] має це відфільтрувати)
+                return Unauthorized(new { Message = "User is not authenticated or user ID is invalid." });
+            }
 
             var command = new CreateReviewCommand
             {
                 ListingId = listingId,
                 Rating = requestDto.Rating,
                 Comment = requestDto.Comment,
-                UserId = authenticatedUserId // Передаємо ID аутентифікованого користувача
+                UserId = authenticatedUserId // <<<< ТЕПЕР ВИКОРИСТОВУЄМО РЕАЛЬНИЙ ID АУТЕНТИФІКОВАНОГО КОРИСТУВАЧА
             };
 
             var result = await _sender.Send(command, cancellationToken);
@@ -105,7 +105,7 @@ namespace Api.Controllers
 
         // PUT: api/reviews/{reviewId}
         [HttpPut("reviews/{reviewId:guid}")]
-        // [Authorize] // TODO: Додайте авторизацію
+        [Authorize] // <<<< РОЗКОМЕНТОВАНО
         [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -115,14 +115,12 @@ namespace Api.Controllers
             [FromBody] UpdateReviewDto requestDto,
             CancellationToken cancellationToken)
         {
-            // TODO: Отримати RequestingUserId з контексту аутентифікованого користувача
-            // var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            // if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
-            // {
-            //     return Unauthorized(new { Message = "User is not authenticated." });
-            // }
-            // Для прикладу, тимчасово:
-            Guid authenticatedUserId = Guid.NewGuid(); // ЗАМІНІТЬ ЦЕ НА РЕАЛЬНЕ ОТРИМАННЯ ID
+            // ОТРИМУЄМО RequestingUserId З КОНТЕКСТУ АУТЕНТИФІКОВАНОГО КОРИСТУВАЧА
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
+            {
+                return Unauthorized(new { Message = "User is not authenticated or user ID is invalid." });
+            }
 
             var command = new UpdateReviewCommand
             {
@@ -142,7 +140,7 @@ namespace Api.Controllers
 
         // DELETE: api/reviews/{reviewId}
         [HttpDelete("reviews/{reviewId:guid}")]
-        // [Authorize] // TODO: Додайте авторизацію
+        [Authorize] // <<<< РОЗКОМЕНТОВАНО
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -150,14 +148,12 @@ namespace Api.Controllers
             [FromRoute] Guid reviewId,
             CancellationToken cancellationToken)
         {
-            // TODO: Отримати RequestingUserId з контексту аутентифікованого користувача
-            // var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            // if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
-            // {
-            //     return Unauthorized(new { Message = "User is not authenticated." });
-            // }
-            // Для прикладу, тимчасово:
-            Guid authenticatedUserId = Guid.NewGuid(); // ЗАМІНІТЬ ЦЕ НА РЕАЛЬНЕ ОТРИМАННЯ ID
+            // ОТРИМУЄМО RequestingUserId З КОНТЕКСТУ АУТЕНТИФІКОВАНОГО КОРИСТУВАЧА
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
+            {
+                return Unauthorized(new { Message = "User is not authenticated or user ID is invalid." });
+            }
 
             var command = new DeleteReviewCommand
             {
