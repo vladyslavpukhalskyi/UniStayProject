@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging; // Для логування
-using System; // Для ArgumentNullException
-using System.Threading.Tasks; // Для Task
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence
 {
@@ -22,11 +22,8 @@ namespace Infrastructure.Persistence
         {
             try
             {
-                // Перевіряємо, чи можна підключитися до БД і чи є міграції
-                if (await _context.Database.CanConnectAsync()) // Перевірка з'єднання
+                if (await _context.Database.CanConnectAsync())
                 {
-                    // Застосовуємо всі очікуючі міграції
-                    // Це створить БД, якщо її немає, і застосує схему
                     _logger.LogInformation("Attempting to apply database migrations.");
                     await _context.Database.MigrateAsync();
                     _logger.LogInformation("Database migrations applied successfully (or no migrations needed).");
@@ -34,13 +31,12 @@ namespace Infrastructure.Persistence
                 else
                 {
                     _logger.LogError("Could not connect to the database. Migrations will not be applied.");
-                    // Можливо, тут варто викинути виняток або обробити ситуацію інакше
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while initialising the database.");
-                throw; // Перекидаємо виняток, щоб проблема була видимою при запуску
+                throw;
             }
         }
 
@@ -48,20 +44,11 @@ namespace Infrastructure.Persistence
         {
             try
             {
-                // Спробуйте створити базу даних, якщо вона ще не існує
-                // await _context.Database.EnsureCreatedAsync(); // Обережно з цим, якщо використовуються міграції.
-                                                              // MigrateAsync зазвичай краще.
-
-                // Тут буде ваша логіка заповнення початковими даними
-                // Наприклад, створення користувача-адміністратора, стандартних ролей, зручностей тощо.
-                if (!_context.Users.Any()) // Приклад: додати адміна, якщо користувачів немає
+                if (!_context.Users.Any())
                 {
                     _logger.LogInformation("Seeding initial user data.");
-                    // _context.Users.Add(new Domain.Users.User(...)); // Додайте вашого адміна
-                    // await _context.SaveChangesAsync();
                     _logger.LogInformation("Initial user data seeded.");
                 }
-                // Додайте іншу логіку seed тут
             }
             catch (Exception ex)
             {

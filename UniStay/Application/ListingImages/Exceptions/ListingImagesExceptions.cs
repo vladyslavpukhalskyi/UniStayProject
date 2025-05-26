@@ -1,14 +1,10 @@
-// Файл: Application/ListingImages/Exceptions/ListingImageExceptions.cs
-using Domain.ListingImages; // Для ListingImageId
-using Domain.Listings;    // Для ListingId
-using Domain.Users;       // Для UserId
+using Domain.ListingImages; 
+using Domain.Listings;    
+using Domain.Users;       
 using System;
 
 namespace Application.ListingImages.Exceptions
 {
-    /// <summary>
-    /// Базовий клас для винятків, пов'язаних із зображеннями оголошень.
-    /// </summary>
     public abstract class ListingImageException : Exception
     {
         public ListingImageId ListingImageId { get; }
@@ -20,18 +16,12 @@ namespace Application.ListingImages.Exceptions
         }
     }
 
-    /// <summary>
-    /// Виняток: зображення оголошення не знайдено.
-    /// </summary>
     public class ListingImageNotFoundException : ListingImageException
     {
         public ListingImageNotFoundException(ListingImageId id)
             : base(id, $"Listing image with id: {id} not found") { }
     }
 
-    /// <summary>
-    /// Виняток: оголошення не знайдено для додавання/зв'язування зображення.
-    /// </summary>
     public class ListingNotFoundForImageException : ListingImageException
     {
         public ListingId ListingId { get; }
@@ -42,9 +32,6 @@ namespace Application.ListingImages.Exceptions
         }
     }
 
-    /// <summary>
-    /// Виняток: користувач не авторизований для керування зображеннями цього оголошення.
-    /// </summary>
     public class UserNotAuthorizedToManageListingImagesException : ListingImageException
     {
         public UserId AttemptingUserId { get; }
@@ -57,9 +44,6 @@ namespace Application.ListingImages.Exceptions
         }
     }
     
-    /// <summary>
-    /// Виняток: помилка під час виконання операції із зображенням оголошення.
-    /// </summary>
     public class ListingImageOperationFailedException : ListingImageException
     {
         public ListingImageOperationFailedException(ListingImageId id, string operation, Exception innerException)

@@ -1,5 +1,4 @@
-// Файл: Application/Listings/Exceptions/ListingExceptions.cs
-using Domain.Listings; // Для ListingId
+using Domain.Listings; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +6,6 @@ using Domain.Users;
 
 namespace Application.Listings.Exceptions
 {
-    /// <summary>
-    /// Базовий клас для винятків, пов'язаних з оголошеннями.
-    /// </summary>
     public abstract class ListingException : Exception
     {
         public ListingId ListingId { get; }
@@ -21,18 +17,12 @@ namespace Application.Listings.Exceptions
         }
     }
 
-    /// <summary>
-    /// Виняток: оголошення не знайдено.
-    /// </summary>
     public class ListingNotFoundException : ListingException
     {
         public ListingNotFoundException(ListingId id)
             : base(id, $"Listing with id: {id} not found") { }
     }
 
-    /// <summary>
-    /// Виняток: надано недійсні ID зручностей при створенні/оновленні оголошення.
-    /// </summary>
     public class InvalidAmenitiesProvidedException : ListingException
     {
         public IEnumerable<Guid> InvalidAmenityIds { get; }
@@ -43,9 +33,6 @@ namespace Application.Listings.Exceptions
         }
     }
 
-    /// <summary>
-    /// Виняток: помилка під час виконання операції з оголошенням.
-    /// </summary>
     public class ListingOperationFailedException : ListingException
     {
         public ListingOperationFailedException(ListingId id, string operation, Exception innerException)

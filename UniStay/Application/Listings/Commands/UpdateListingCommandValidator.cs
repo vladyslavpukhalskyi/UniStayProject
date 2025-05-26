@@ -1,4 +1,3 @@
-// Файл: Application/Listings/Commands/UpdateListingCommandValidator.cs
 using Domain.Listings; // Для ListingEnums
 using FluentValidation;
 using System.Linq;

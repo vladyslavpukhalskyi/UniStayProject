@@ -1,12 +1,12 @@
-// Файл: Infrastructure/Security/PasswordHasherService.cs
-using Application.Common.Interfaces; // Ваш IPasswordHasher
-using Microsoft.AspNetCore.Identity; // Потрібен NuGet пакет Microsoft.Extensions.Identity.Core
+
+using Application.Common.Interfaces; 
+using Microsoft.AspNetCore.Identity; 
 using System;
 using Application.Common.Interfaces.Auth;
 
 namespace Infrastructure.Security
 {
-    internal class AppUserPlaceholder { } // Допоміжний клас
+    internal class AppUserPlaceholder { } 
 
     public class PasswordHasherService : IPasswordHash
     {

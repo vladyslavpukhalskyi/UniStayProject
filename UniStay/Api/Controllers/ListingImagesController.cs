@@ -1,23 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
-using MediatR; // Для ISender
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims; // Для отримання UserId з Claims
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Api.Dtos; // Розташування ваших ListingImageDto, CreateListingImageDto, UpdateListingImageDto
-using Application.ListingImages.Commands; // Розташування ваших команд для ListingImage
-using Application.ListingImages.Exceptions; // Для ListingImageException
-using Application.Common.Interfaces.Queries; // Припускаємо, що IListingImagesQueries тут
-using Domain.ListingImages; // Для ListingImageId
-using Domain.Listings;    // Для ListingId
-using Api.Modules.Errors; // Для ListingImageErrorHandler.ToObjectResult()
+using Api.Dtos;
+using Application.ListingImages.Commands;
+using Application.ListingImages.Exceptions;
+using Application.Common.Interfaces.Queries;
+using Domain.ListingImages;
+using Domain.Listings;
+using Api.Modules.Errors;
 using Optional;
 
 namespace Api.Controllers
 {
-    // Контролер може мати більш загальний маршрут, а специфічні шляхи визначаються на методах
     [Route("api")] 
     [ApiController]
     public class ListingImagesController : ControllerBase
@@ -31,7 +30,6 @@ namespace Api.Controllers
             _listingImagesQueries = listingImagesQueries ?? throw new ArgumentNullException(nameof(listingImagesQueries));
         }
 
-        // GET: api/listingimages/{imageId}
         [HttpGet("listingimages/{imageId:guid}", Name = "GetListingImageById")]
         [ProducesResponseType(typeof(ListingImageDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,7 +43,6 @@ namespace Api.Controllers
             );
         }
 
-        // GET: api/listings/{listingId}/images
         [HttpGet("listings/{listingId:guid}/images")]
         [ProducesResponseType(typeof(IReadOnlyList<ListingImageDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ListingImageDto>>> GetImagesForListing([FromRoute] Guid listingId, CancellationToken cancellationToken)
@@ -55,18 +52,15 @@ namespace Api.Controllers
             return Ok(imageDtos);
         }
 
-        // POST: api/listings/{listingId}/images
-        // [Authorize] // TODO: Додайте авторизацію
         [HttpPost("listings/{listingId:guid}/images")]
         [ProducesResponseType(typeof(ListingImageDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // Для помилок валідації або якщо оголошення не знайдено
-        [ProducesResponseType(StatusCodes.Status403Forbidden)] // Якщо користувач не авторизований
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> AddImageToListing(
             [FromRoute] Guid listingId,
-            [FromBody] CreateListingImageDto requestDto, // DTO містить ImageUrl (та ListingId, який тут ігнорується)
+            [FromBody] CreateListingImageDto requestDto,
             CancellationToken cancellationToken)
         {
-            // TODO: Отримати RequestingUserId з контексту аутентифікованого користувача
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {
@@ -75,7 +69,7 @@ namespace Api.Controllers
 
             var command = new CreateListingImageCommand
             {
-                ListingId = listingId, // Беремо ListingId з маршруту
+                ListingId = listingId,
                 ImageUrl = requestDto.ImageUrl,
                 RequestingUserId = authenticatedUserId
             };
@@ -88,8 +82,6 @@ namespace Api.Controllers
             );
         }
 
-        // PUT: api/listingimages/{imageId}
-        // [Authorize] // TODO: Додайте авторизацію
         [HttpPut("listingimages/{imageId:guid}")]
         [ProducesResponseType(typeof(ListingImageDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -97,10 +89,9 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateListingImage(
             [FromRoute] Guid imageId,
-            [FromBody] UpdateListingImageDto requestDto, // DTO містить ImageUrl
+            [FromBody] UpdateListingImageDto requestDto,
             CancellationToken cancellationToken)
         {
-            // TODO: Отримати RequestingUserId з контексту аутентифікованого користувача
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {
@@ -122,8 +113,6 @@ namespace Api.Controllers
             );
         }
 
-        // DELETE: api/listingimages/{imageId}
-        // [Authorize] // TODO: Додайте авторизацію
         [HttpDelete("listingimages/{imageId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -132,7 +121,6 @@ namespace Api.Controllers
             [FromRoute] Guid imageId,
             CancellationToken cancellationToken)
         {
-            // TODO: Отримати RequestingUserId з контексту аутентифікованого користувача
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {
@@ -153,7 +141,6 @@ namespace Api.Controllers
             );
         }
         
-        // GET: api/listingimages (Опціонально, якщо потрібно отримати всі зображення)
         [HttpGet("listingimages")]
         [ProducesResponseType(typeof(IReadOnlyList<ListingImageDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ListingImageDto>>> GetAllListingImages(CancellationToken cancellationToken)

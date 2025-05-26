@@ -13,8 +13,7 @@ namespace Infrastructure.Persistence
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
-        // DbSet для кожної сутності
+        
         public DbSet<User> Users { get; set; }
         public DbSet<Listing> Listings { get; set; }
         public DbSet<Amenity> Amenities { get; set; }

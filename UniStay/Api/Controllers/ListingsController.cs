@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using MediatR; // Для ISender
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims; // Для отримання UserId з Claims
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Api.Dtos; // Розташування ваших ListingDto, CreateListingDto, UpdateListingDto та інших DTO
-using Application.Listings.Commands; // Розташування ваших команд для Listing
-using Application.Listings.Exceptions; // Для ListingException
-using Application.Common.Interfaces.Queries; // Припускаємо, що IListingsQueries тут
-using Domain.Listings; // Для ListingId, ListingEnums
-using Domain.Users;   // Для UserId
-using Api.Modules.Errors; // Для ListingErrorHandler.ToObjectResult()
+using Api.Dtos;
+using Application.Listings.Commands;
+using Application.Listings.Exceptions;
+using Application.Common.Interfaces.Queries;
+using Domain.Listings;
+using Domain.Users;
+using Api.Modules.Errors;
 using Optional;
 
 namespace Api.Controllers
@@ -30,7 +30,6 @@ namespace Api.Controllers
             _listingsQueries = listingsQueries ?? throw new ArgumentNullException(nameof(listingsQueries));
         }
 
-        // GET: api/listings
         [HttpGet]
         [ProducesResponseType(typeof(IReadOnlyList<ListingDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ListingDto>>> GetAllListings(CancellationToken cancellationToken)
@@ -40,7 +39,6 @@ namespace Api.Controllers
             return Ok(listingDtos);
         }
 
-        // GET: api/listings/search?keyword=example
         [HttpGet("search")]
         [ProducesResponseType(typeof(IReadOnlyList<ListingDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ListingDto>>> SearchListings([FromQuery] string keyword, CancellationToken cancellationToken)
@@ -50,7 +48,6 @@ namespace Api.Controllers
             return Ok(listingDtos);
         }
 
-        // GET: api/listings/user/{userId}
         [HttpGet("user/{userId:guid}")]
         [ProducesResponseType(typeof(IReadOnlyList<ListingDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ListingDto>>> GetListingsByUserId([FromRoute] Guid userId, CancellationToken cancellationToken)
@@ -60,7 +57,6 @@ namespace Api.Controllers
             return Ok(listingDtos);
         }
 
-        // GET: api/listings/{listingId}
         [HttpGet("{listingId:guid}", Name = "GetListingById")]
         [ProducesResponseType(typeof(ListingDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,15 +70,12 @@ namespace Api.Controllers
             );
         }
 
-        // POST: api/listings
-        // [Authorize] // TODO: Додайте авторизацію
         [HttpPost]
         [ProducesResponseType(typeof(ListingDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // Також для InvalidAmenitiesProvidedException
-        [ProducesResponseType(StatusCodes.Status403Forbidden)] // Якщо авторизація на рівні створення
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> CreateListing([FromBody] CreateListingDto requestDto, CancellationToken cancellationToken)
         {
-            // TODO: Отримати UserId з контексту аутентифікованого користувача
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {
@@ -111,11 +104,9 @@ namespace Api.Controllers
             );
         }
 
-        // PUT: api/listings/{listingId}
-        // [Authorize] // TODO: Додайте авторизацію
         [HttpPut("{listingId:guid}")]
         [ProducesResponseType(typeof(ListingDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // Також для InvalidAmenitiesProvidedException
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateListing(
@@ -123,7 +114,6 @@ namespace Api.Controllers
             [FromBody] UpdateListingDto requestDto,
             CancellationToken cancellationToken)
         {
-            // TODO: Отримати RequestingUserId з контексту аутентифікованого користувача
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {
@@ -153,8 +143,6 @@ namespace Api.Controllers
             );
         }
 
-        // DELETE: api/listings/{listingId}
-        // [Authorize] // TODO: Додайте авторизацію
         [HttpDelete("{listingId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -163,7 +151,6 @@ namespace Api.Controllers
             [FromRoute] Guid listingId,
             CancellationToken cancellationToken)
         {
-            // TODO: Отримати RequestingUserId з контексту аутентифікованого користувача
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {

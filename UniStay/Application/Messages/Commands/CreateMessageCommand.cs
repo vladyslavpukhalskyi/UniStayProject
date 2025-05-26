@@ -1,9 +1,8 @@
-// Файл: Application/Messages/Commands/CreateMessageCommand.cs
-using Application.Common; // Для Result
-using Application.Common.Interfaces.Repositories; // Для IMessagesRepository, IUsersRepository
-using Application.Messages.Exceptions; // Для MessageException та підтипів
-using Domain.Messages; // Для Message, MessageId
-using Domain.Users;   // Для UserId
+using Application.Common; 
+using Application.Common.Interfaces.Repositories; 
+using Application.Messages.Exceptions; 
+using Domain.Messages; 
+using Domain.Users;   
 using MediatR;
 using System;
 using System.Threading;
@@ -11,33 +10,18 @@ using System.Threading.Tasks;
 
 namespace Application.Messages.Commands
 {
-    /// <summary>
-    /// Команда для створення (відправлення) нового повідомлення.
-    /// </summary>
     public record CreateMessageCommand : IRequest<Result<Message, MessageException>>
     {
-        /// <summary>
-        /// ID отримувача повідомлення.
-        /// </summary>
         public required Guid ReceiverId { get; init; }
 
-        /// <summary>
-        /// Текст повідомлення.
-        /// </summary>
         public required string Text { get; init; }
 
-        /// <summary>
-        /// ID відправника повідомлення. Встановлюється з контексту аутентифікації.
-        /// </summary>
         public required Guid SenderId { get; init; }
     }
 
-    /// <summary>
-    /// Обробник команди CreateMessageCommand.
-    /// </summary>
     public class CreateMessageCommandHandler(
         IMessagesRepository messagesRepository,
-        IUsersRepository usersRepository // Потрібен для перевірки існування отримувача
+        IUsersRepository usersRepository 
         )
         : IRequestHandler<CreateMessageCommand, Result<Message, MessageException>>
     {
@@ -46,13 +30,11 @@ namespace Application.Messages.Commands
             var receiverId = new UserId(request.ReceiverId);
             var senderId = new UserId(request.SenderId);
 
-            // 1. Перевірити, чи відправник не є отримувачем
             if (senderId == receiverId)
             {
                 return new CannotSendMessageToSelfException(senderId);
             }
 
-            // 2. Перевірити, чи існує отримувач (User)
             var receiverOption = await usersRepository.GetById(receiverId, cancellationToken);
             if (!receiverOption.HasValue)
             {
@@ -62,7 +44,6 @@ namespace Application.Messages.Commands
             var messageId = MessageId.New();
             try
             {
-                // 3. Створити сутність Message
                 var message = Message.New(
                     id: messageId,
                     senderId: senderId,
@@ -70,13 +51,11 @@ namespace Application.Messages.Commands
                     text: request.Text
                 );
 
-                // 4. Додати повідомлення в репозиторій
                 var addedMessage = await messagesRepository.Add(message, cancellationToken);
-                return addedMessage; // Implicit conversion
+                return addedMessage; 
             }
             catch (Exception exception)
             {
-                // 5. Обробити можливі помилки під час збереження
                 return new MessageOperationFailedException(messageId, "CreateMessage", exception);
             }
         }

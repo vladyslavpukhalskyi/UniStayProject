@@ -1,4 +1,3 @@
-// Файл: Application/Users/Commands/UpdateUserCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Users.Commands
@@ -21,12 +20,10 @@ namespace Application.Users.Commands
             RuleFor(x => x.PhoneNumber)
                 .MaximumLength(20).When(x => !string.IsNullOrEmpty(x.PhoneNumber))
                 .WithMessage("Номер телефону не може перевищувати 20 символів.");
-            // Можна додати regex для перевірки формату номера, якщо поле не порожнє
 
             RuleFor(x => x.ProfileImage)
                 .MaximumLength(500).When(x => !string.IsNullOrEmpty(x.ProfileImage))
                 .WithMessage("URL зображення профілю не може перевищувати 500 символів.");
-            // Можна додати перевірку на валідність URL, якщо поле не порожнє та це URL
         }
     }
 }

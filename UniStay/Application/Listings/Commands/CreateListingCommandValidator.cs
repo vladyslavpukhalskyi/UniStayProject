@@ -1,4 +1,3 @@
-// Файл: Application/Listings/Commands/CreateListingCommandValidator.cs
 using Domain.Listings; // Для ListingEnums
 using FluentValidation;
 using System.Linq;
@@ -34,7 +33,7 @@ namespace Application.Listings.Commands
                 .NotNull().WithMessage("Список комунальних послуг не може бути null.")
                 .Must(list => list.All(item => Enum.IsDefined(typeof(ListingEnums.CommunalService), item)))
                     .WithMessage("Список комунальних послуг містить неправильні значення.")
-                .Must(list => list.Count > 0).WithMessage("Має бути вказаний принаймні один статус комунальних послуг."); // Або інше правило
+                .Must(list => list.Count > 0).WithMessage("Має бути вказаний принаймні один статус комунальних послуг."); 
 
             RuleFor(x => x.Owners)
                 .IsInEnum().WithMessage("Неправильний тип власності.");
@@ -44,7 +43,6 @@ namespace Application.Listings.Commands
 
             RuleFor(x => x.AmenityIds)
                 .NotNull().WithMessage("Список ID зручностей не може бути null (може бути порожнім).");
-                // Перевірка існування ID зручностей відбувається в обробнику команди
         }
     }
 }

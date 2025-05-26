@@ -1,6 +1,5 @@
-// Файл: Application/ListingImages/Commands/UpdateListingImageCommandValidator.cs
 using FluentValidation;
-using System; // Для Uri
+using System; 
 
 namespace Application.ListingImages.Commands
 {

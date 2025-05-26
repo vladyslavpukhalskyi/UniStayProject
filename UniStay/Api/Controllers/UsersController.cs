@@ -12,8 +12,8 @@ using Application.Common.Interfaces.Queries;
 using Domain.Users;
 using Api.Modules.Errors;
 using Optional;
-using Application.Auth.Dto; // <<<< ДОДАНО: Для AuthResultDto
-using Microsoft.AspNetCore.Authorization; // <<<< ДОДАНО: Для атрибута [AllowAnonymous]
+using Application.Auth.Dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -30,10 +30,8 @@ namespace Api.Controllers
             _usersQueries = usersQueries ?? throw new ArgumentNullException(nameof(usersQueries));
         }
 
-        // GET: api/users
         [HttpGet]
         [ProducesResponseType(typeof(IReadOnlyList<UserDto>), StatusCodes.Status200OK)]
-        // [Authorize] // Можливо, ви захочете захистити цей ендпоінт
         public async Task<ActionResult<IReadOnlyList<UserDto>>> GetAllUsers(CancellationToken cancellationToken)
         {
             var users = await _usersQueries.GetAll(cancellationToken);
@@ -41,11 +39,9 @@ namespace Api.Controllers
             return Ok(userDtos);
         }
 
-        // GET: api/users/{userId}
         [HttpGet("{userId:guid}")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        // [Authorize] // Можливо, ви захочете захистити цей ендпоінт
         public async Task<ActionResult<UserDto>> GetUserById([FromRoute] Guid userId, CancellationToken cancellationToken)
         {
             var userOption = await _usersQueries.GetById(new UserId(userId), cancellationToken);
@@ -56,12 +52,11 @@ namespace Api.Controllers
             );
         }
 
-        // POST: api/users (Реєстрація нового користувача)
         [HttpPost]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [AllowAnonymous] // <<<< ДОДАНО: Щоб дозволити неавторизованим користувачам реєструватися
+        [AllowAnonymous]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto requestDto, CancellationToken cancellationToken)
         {
             var command = new CreateUserCommand
@@ -82,12 +77,11 @@ namespace Api.Controllers
             );
         }
 
-        // ДОДАНО: Ендпоінт для входу (логіну)
-        [HttpPost("login")] // POST api/users/login
+        [HttpPost("login")]
         [ProducesResponseType(typeof(AuthResultDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)] // Зазвичай 401 для невірних облікових даних
-        [AllowAnonymous] // <<<< ДОДАНО: Щоб дозволити неавторизованим користувачам входити
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [AllowAnonymous]
         public async Task<IActionResult> LoginUser([FromBody] LoginUserDtos requestDto, CancellationToken cancellationToken)
         {
             var command = new LoginUserCommand
@@ -104,12 +98,11 @@ namespace Api.Controllers
             );
         }
 
-        // PUT: api/users/{userId}
         [HttpPut("{userId:guid}")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize] // <<<< ДОДАНО: Захищаємо цей ендпоінт, бо він змінює дані користувача
+        [Authorize]
         public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UpdateUserDto requestDto, CancellationToken cancellationToken)
         {
             var command = new UpdateUserCommand
@@ -129,11 +122,10 @@ namespace Api.Controllers
             );
         }
 
-        // DELETE: api/users/{userId}
         [HttpDelete("{userId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize] // <<<< ДОДАНО: Захищаємо цей ендпоінт
+        [Authorize]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid userId, CancellationToken cancellationToken)
         {
             var command = new DeleteUserCommand

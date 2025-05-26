@@ -1,4 +1,3 @@
-// Файл: Application/Messages/Commands/DeleteMessageCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Messages.Commands

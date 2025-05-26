@@ -1,9 +1,7 @@
-// Файл: Application/Common/Models/Result.cs
 using System;
 
-namespace Application.Common // <<<< ОНОВЛЕНО ТУТ!
+namespace Application.Common 
 {
-    // Базовий клас для Result, який вказує на успіх або помилку
     public class Result<TValue, TError>
     {
         private readonly TValue _value;

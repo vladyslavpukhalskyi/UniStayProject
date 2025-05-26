@@ -1,10 +1,9 @@
-// Файл: Infrastructure/Persistence/Repositories/ReviewsRepository.cs
-using Application.Common.Interfaces.Queries; // <--- ДОДАНО
+using Application.Common.Interfaces.Queries;
 using Application.Common.Interfaces.Repositories;
 using Domain.Reviews;
 using Domain.Listings;
 using Domain.Users;
-using Infrastructure.Persistence; // <--- ДОДАНО
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Optional;
 using Optional.Async.Extensions;
@@ -16,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class ReviewsRepository : IReviewsRepository, IReviewsQueries // <--- ДОДАНО IReviewsQueries
+    public class ReviewsRepository : IReviewsRepository, IReviewsQueries
     {
         private readonly ApplicationDbContext _context;
 
@@ -25,7 +24,6 @@ namespace Infrastructure.Persistence.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        // --- Методи IReviewsRepository ---
         public async Task<Review> Add(Review review, CancellationToken cancellationToken)
         {
             await _context.Reviews.AddAsync(review, cancellationToken);
@@ -47,24 +45,18 @@ namespace Infrastructure.Persistence.Repositories
             return review;
         }
         
-        // GetById для IReviewsRepository
         async Task<Option<Review>> IReviewsRepository.GetById(ReviewId id, CancellationToken cancellationToken)
         {
-            // Для команд може бути достатньо без Include, якщо User не потрібен для валідації операції
             var review = await _context.Reviews
-                                 // .Include(r => r.User) // Розкоментуйте, якщо User потрібен для логіки команд
                                  .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
             return review.SomeNotNull();
         }
 
-        // --- Методи IReviewsQueries ---
-        // GetById для IReviewsQueries
         async Task<Option<Review>> IReviewsQueries.GetById(ReviewId id, CancellationToken cancellationToken)
         {
             var review = await _context.Reviews
                 .AsNoTracking()
-                .Include(r => r.User) // Для ReviewDto
-                // .Include(r => r.Listing) // Якщо ReviewDto також потребує інформацію про Listing
+                .Include(r => r.User)
                 .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
             return review.SomeNotNull();
         }
@@ -74,7 +66,7 @@ namespace Infrastructure.Persistence.Repositories
             return await _context.Reviews
                 .AsNoTracking()
                 .Where(r => r.ListingId == listingId)
-                .Include(r => r.User) // Для ReviewDto
+                .Include(r => r.User)
                 .ToListAsync(cancellationToken);
         }
 
@@ -83,8 +75,7 @@ namespace Infrastructure.Persistence.Repositories
             return await _context.Reviews
                 .AsNoTracking()
                 .Where(r => r.UserId == userId)
-                .Include(r => r.User) // Для ReviewDto
-                // .Include(r => r.Listing) // Якщо ReviewDto також потребує інформацію про Listing
+                .Include(r => r.User)
                 .ToListAsync(cancellationToken);
         }
     }

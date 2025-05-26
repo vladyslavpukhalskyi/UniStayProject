@@ -1,19 +1,17 @@
-using Infrastructure.Persistence; // Переконайтеся, що цей using правильний для вашого ApplicationDbContextInitialiser
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks; // Додано для Task
+using System.Threading.Tasks;
 
-namespace Api.Modules // Або інший простір імен, який ви використовуєте для модулів API
+namespace Api.Modules
 {
     public static class DbModule
     {
-        public static async Task InitialiseDbAsync(this WebApplication app) // Додав Async до назви для ясності
+        public static async Task InitialiseDbAsync(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
             var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
-            await initialiser.InitializeAsync(); // Цей метод також має бути асинхронним в ApplicationDbContextInitialiser
-            // Якщо у вас є окремий метод для seed, його можна викликати тут
-            // await initialiser.SeedAsync();
+            await initialiser.InitializeAsync();
         }
     }
 }

@@ -1,4 +1,3 @@
-// Файл: Application/Messages/Commands/CreateMessageCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Messages.Commands
@@ -15,7 +14,7 @@ namespace Application.Messages.Commands
 
             RuleFor(x => x.Text)
                 .NotEmpty().WithMessage("Текст повідомлення не може бути порожнім.")
-                .MaximumLength(1000).WithMessage("Текст повідомлення не може перевищувати 1000 символів."); // Або інше обмеження, якщо потрібно
+                .MaximumLength(1000).WithMessage("Текст повідомлення не може перевищувати 1000 символів."); 
         }
     }
 }

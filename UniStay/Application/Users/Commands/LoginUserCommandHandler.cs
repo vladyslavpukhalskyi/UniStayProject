@@ -1,11 +1,10 @@
 using MediatR;
-using Application.Common.Interfaces.Auth; // Для IJwtGenerator та IPasswordHash
-using Application.Common.Interfaces.Queries; // Для IUsersQueries
-// using Application.Common.Models; // <<<< ОНОВЛЕНО: Для Result
-using Application.Users.Exceptions; // Для UserException
+using Application.Common.Interfaces.Auth;
+using Application.Common.Interfaces.Queries;
+using Application.Users.Exceptions;
 using Application.Auth.Dto;
-using Optional; // Для Option<>
-using Domain.Users; // Для User
+using Optional;
+using Domain.Users;
 using System;
 using Application.Common;
 
@@ -14,7 +13,7 @@ namespace Application.Users.Commands
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<AuthResultDto, UserException>>
     {
         private readonly IUsersQueries _usersQueries;
-        private readonly IPasswordHash _passwordHash; // Коректна назва
+        private readonly IPasswordHash _passwordHash;
         private readonly IJwtGenerator _jwtGenerator;
 
         public LoginUserCommandHandler(IUsersQueries usersQueries, IPasswordHash passwordHash, IJwtGenerator jwtGenerator)

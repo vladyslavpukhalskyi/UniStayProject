@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using MediatR; // Для ISender
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Api.Dtos; // Розташування ваших AmenityDto, CreateAmenityDto, UpdateAmenityDto
-using Application.Amenities.Commands; // Розташування ваших команд для Amenity
-using Application.Amenities.Exceptions; // Для AmenityException
-using Application.Common.Interfaces.Queries; // Припускаємо, що IAmenitiesQueries тут
-using Domain.Amenities; // Для AmenityId
-using Api.Modules.Errors; // Для AmenityErrorHandler.ToObjectResult()
+using Api.Dtos;
+using Application.Amenities.Commands;
+using Application.Amenities.Exceptions;
+using Application.Common.Interfaces.Queries;
+using Domain.Amenities;
+using Api.Modules.Errors;
 using Optional;
-// using Microsoft.AspNetCore.Authorization; // Розкоментуйте, коли налаштуєте авторизацію
 
 namespace Api.Controllers
 {
@@ -29,7 +28,6 @@ namespace Api.Controllers
             _amenitiesQueries = amenitiesQueries ?? throw new ArgumentNullException(nameof(amenitiesQueries));
         }
 
-        // GET: api/amenities
         [HttpGet]
         [ProducesResponseType(typeof(IReadOnlyList<AmenityDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<AmenityDto>>> GetAllAmenities(CancellationToken cancellationToken)
@@ -39,7 +37,6 @@ namespace Api.Controllers
             return Ok(amenityDtos);
         }
 
-        // GET: api/amenities/{amenityId}
         [HttpGet("{amenityId:guid}", Name = "GetAmenityById")]
         [ProducesResponseType(typeof(AmenityDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -53,7 +50,6 @@ namespace Api.Controllers
             );
         }
 
-        // GET: api/amenities/by-title?title=Example%20Amenity
         [HttpGet("by-title")]
         [ProducesResponseType(typeof(AmenityDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -67,12 +63,10 @@ namespace Api.Controllers
             );
         }
 
-        // POST: api/amenities
-        // [Authorize(Roles = "Administrator")] // TODO: Додайте авторизацію для адміністраторів
         [HttpPost]
         [ProducesResponseType(typeof(AmenityDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)] // Для AmenityAlreadyExistsException
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateAmenity([FromBody] CreateAmenityDto requestDto, CancellationToken cancellationToken)
         {
             var command = new CreateAmenityCommand
@@ -88,13 +82,11 @@ namespace Api.Controllers
             );
         }
 
-        // PUT: api/amenities/{amenityId}
-        // [Authorize(Roles = "Administrator")] // TODO: Додайте авторизацію для адміністраторів
         [HttpPut("{amenityId:guid}")]
         [ProducesResponseType(typeof(AmenityDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)] // Для AmenityAlreadyExistsException при оновленні
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateAmenity(
             [FromRoute] Guid amenityId,
             [FromBody] UpdateAmenityDto requestDto,
@@ -114,12 +106,10 @@ namespace Api.Controllers
             );
         }
 
-        // DELETE: api/amenities/{amenityId}
-        // [Authorize(Roles = "Administrator")] // TODO: Додайте авторизацію для адміністраторів
         [HttpDelete("{amenityId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)] // Для AmenityOperationFailedException (FK constraint)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteAmenity([FromRoute] Guid amenityId, CancellationToken cancellationToken)
         {
             var command = new DeleteAmenityCommand

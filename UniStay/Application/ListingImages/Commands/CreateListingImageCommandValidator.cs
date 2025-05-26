@@ -1,6 +1,5 @@
-// Файл: Application/ListingImages/Commands/CreateListingImageCommandValidator.cs
 using FluentValidation;
-using System; // Для Uri
+using System; 
 
 namespace Application.ListingImages.Commands
 {
@@ -22,7 +21,6 @@ namespace Application.ListingImages.Commands
 
         private bool BeAValidUrl(string url)
         {
-            // Проста перевірка; для більш надійної можна використовувати регулярні вирази або додаткові бібліотеки
             return Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult)
                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }

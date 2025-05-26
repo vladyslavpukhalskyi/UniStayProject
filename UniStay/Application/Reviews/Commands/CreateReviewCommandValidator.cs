@@ -1,4 +1,3 @@
-// Файл: Application/Reviews/Commands/CreateReviewCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Reviews.Commands

@@ -2,7 +2,7 @@ using Infrastructure;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Api.Modules;
-using Application; // Залишимо, якщо AddApplication() дійсно тут
+using Application;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Сервіси API (Swagger/OpenAPI)
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddApplication();
+builder.Services.AddApplication(); // Assuming this is a custom extension method for Application layer services
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "UniStay API", Version = "v1" });
@@ -53,11 +53,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)), // Use '!' to assert non-null
             ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"], // <<<< ВИКОРИСТОВУЄМО З appsettings.json
+            ValidIssuer = builder.Configuration["Jwt:Issuer"]!, // Use '!' to assert non-null
             ValidateAudience = true,
-            ValidAudience = builder.Configuration["Jwt:Audience"], // <<<< ВИКОРИСТОВУЄМО З appsettings.json
+            ValidAudience = builder.Configuration["Jwt:Audience"]!, // Use '!' to assert non-null
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero // Токен вважається дійсним до закінчення терміну дії
         };
@@ -81,10 +81,10 @@ builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 // 5. Реєстрація сервісів з Application шару
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(); // Assuming this is a custom extension method for Application layer services
 
 // 6. Налаштування специфічних для API сервісів (включаючи інтеграцію FluentValidation)
-builder.Services.SetupApplicationServices();
+builder.Services.SetupApplicationServices(); // Assuming this is a custom extension method for API specific services
 
 // 7. Додавання контролерів
 builder.Services.AddControllers();

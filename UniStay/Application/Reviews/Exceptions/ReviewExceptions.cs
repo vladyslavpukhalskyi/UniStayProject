@@ -1,14 +1,10 @@
-// Файл: Application/Reviews/Exceptions/ReviewExceptions.cs
-using Domain.Listings; // Для ListingId
-using Domain.Reviews; // Для ReviewId
-using Domain.Users;   // Для UserId
+using Domain.Listings; 
+using Domain.Reviews; 
+using Domain.Users;   
 using System;
 
 namespace Application.Reviews.Exceptions
 {
-    /// <summary>
-    /// Базовий клас для винятків, пов'язаних з відгуками.
-    /// </summary>
     public abstract class ReviewException : Exception
     {
         public ReviewId ReviewId { get; }
@@ -20,18 +16,12 @@ namespace Application.Reviews.Exceptions
         }
     }
 
-    /// <summary>
-    /// Виняток: відгук не знайдено.
-    /// </summary>
     public class ReviewNotFoundException : ReviewException
     {
         public ReviewNotFoundException(ReviewId id)
             : base(id, $"Review with id: {id} not found") { }
     }
 
-    /// <summary>
-    /// Виняток: оголошення не знайдено для створення/прив'язки відгуку.
-    /// </summary>
     public class ListingNotFoundForReviewException : ReviewException
     {
         public ListingId ListingId { get; }
@@ -42,9 +32,6 @@ namespace Application.Reviews.Exceptions
         }
     }
 
-    /// <summary>
-    /// Виняток: користувач не може залишити відгук (наприклад, вже залишив або це його оголошення).
-    /// </summary>
     public class UserCannotReviewException : ReviewException
     {
         public UserId UserId { get; }
@@ -57,20 +44,12 @@ namespace Application.Reviews.Exceptions
         }
     }
     
-    /// <summary>
-    /// Виняток: помилка під час виконання операції з відгуком.
-    /// </summary>
     public class ReviewOperationFailedException : ReviewException
     {
         public ReviewOperationFailedException(ReviewId id, string operation, Exception innerException)
             : base(id, $"Operation '{operation}' failed for review with id: {(id == ReviewId.Empty() ? "N/A" : id.ToString())}", innerException) { }
     }
-    // Файл: Application/Reviews/Exceptions/ReviewExceptions.cs
-// ... (попередні винятки) ...
-
-    /// <summary>
-    /// Виняток: користувач не авторизований для виконання операції з відгуком.
-    /// </summary>
+    
     public class UserNotAuthorizedForReviewOperationException : ReviewException
     {
         public UserId AttemptingUserId { get; }

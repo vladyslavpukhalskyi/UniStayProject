@@ -1,9 +1,8 @@
-// Файл: Application/Reviews/Commands/DeleteReviewCommand.cs
-using Application.Common; // Для Result
-using Application.Common.Interfaces.Repositories; // Для IReviewsRepository
-using Application.Reviews.Exceptions; // Для ReviewException та підтипів
-using Domain.Reviews; // Для Review, ReviewId
-using Domain.Users;   // Для UserId
+using Application.Common; 
+using Application.Common.Interfaces.Repositories; 
+using Application.Reviews.Exceptions; 
+using Domain.Reviews; 
+using Domain.Users;   
 using MediatR;
 using System;
 using System.Threading;
@@ -11,26 +10,13 @@ using System.Threading.Tasks;
 
 namespace Application.Reviews.Commands
 {
-    /// <summary>
-    /// Команда для видалення відгуку.
-    /// </summary>
     public record DeleteReviewCommand : IRequest<Result<Review, ReviewException>>
     {
-        /// <summary>
-        /// ID відгуку, який потрібно видалити.
-        /// </summary>
         public required Guid ReviewId { get; init; }
 
-        /// <summary>
-        /// ID користувача, який запитує видалення (для перевірки авторизації).
-        /// Встановлюється з контексту аутентифікації.
-        /// </summary>
         public required Guid RequestingUserId { get; init; }
     }
 
-    /// <summary>
-    /// Обробник команди DeleteReviewCommand.
-    /// </summary>
     public class DeleteReviewCommandHandler(
         IReviewsRepository reviewsRepository)
         : IRequestHandler<DeleteReviewCommand, Result<Review, ReviewException>>
@@ -40,23 +26,19 @@ namespace Application.Reviews.Commands
             var reviewIdToDelete = new ReviewId(request.ReviewId);
             var requestingUserId = new UserId(request.RequestingUserId);
 
-            // 1. Отримати відгук за ID
             var existingReviewOption = await reviewsRepository.GetById(reviewIdToDelete, cancellationToken);
 
             return await existingReviewOption.Match<Task<Result<Review, ReviewException>>>(
-                some: async review => // Якщо відгук знайдено
+                some: async review => 
                 {
-                    // 2. Перевірка авторизації: чи є поточний користувач автором відгуку
-                    // (Для адміністраторських прав потрібна була б додаткова логіка/перевірка ролі)
                     if (review.UserId != requestingUserId)
                     {
                         return new UserNotAuthorizedForReviewOperationException(requestingUserId, reviewIdToDelete, "DeleteReview");
                     }
 
-                    // 3. Видалити сутність відгуку
                     return await DeleteReviewEntity(review, cancellationToken);
                 },
-                none: () => // Якщо відгук не знайдено
+                none: () => 
                 {
                     ReviewException exception = new ReviewNotFoundException(reviewIdToDelete);
                     return Task.FromResult<Result<Review, ReviewException>>(exception);
@@ -69,7 +51,7 @@ namespace Application.Reviews.Commands
             try
             {
                 var deletedReview = await reviewsRepository.Delete(review, cancellationToken);
-                return deletedReview; // Implicit conversion
+                return deletedReview; 
             }
             catch (Exception exception)
             {

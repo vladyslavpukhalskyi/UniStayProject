@@ -1,8 +1,7 @@
 using MediatR;
-using Application.Users.Exceptions; // Для UserException
+using Application.Users.Exceptions;
 using Application.Auth.Dto;
 using Application.Common;
-// using Application.Common.Models; // <<<< ОНОВЛЕНО: Для Result
 
 namespace Application.Users.Commands
 {

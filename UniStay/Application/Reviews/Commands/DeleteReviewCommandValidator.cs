@@ -1,4 +1,3 @@
-// Файл: Application/Reviews/Commands/DeleteReviewCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Reviews.Commands

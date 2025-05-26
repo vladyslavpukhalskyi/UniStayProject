@@ -1,4 +1,3 @@
-// Файл: Application/Amenities/Commands/CreateAmenityCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Amenities.Commands
@@ -10,7 +9,6 @@ namespace Application.Amenities.Commands
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Назва зручності є обов'язковою.")
                 .MaximumLength(100).WithMessage("Назва зручності не може перевищувати 100 символів.");
-            // Можна додати .MinimumLength(), якщо потрібно
         }
     }
 }

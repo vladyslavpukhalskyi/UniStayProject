@@ -1,4 +1,3 @@
-// Файл: Application/Users/Commands/DeleteUserCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Users.Commands

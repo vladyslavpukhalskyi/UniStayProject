@@ -1,25 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
-using MediatR; // Для ISender
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims; // Для отримання UserId з Claims
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Api.Dtos; // Розташування ваших ReviewDto, CreateReviewDto, UpdateReviewDto
-using Application.Reviews.Commands; // Розташування ваших команд для Review
-using Application.Reviews.Exceptions; // Для ReviewException
-using Application.Common.Interfaces.Queries; // Припускаємо, що IReviewsQueries тут
-using Domain.Reviews; // Для ReviewId
-using Domain.Listings; // Для ListingId
-using Domain.Users;   // Для UserId
-using Api.Modules.Errors; // Для ReviewErrorHandler.ToObjectResult()
-using Microsoft.AspNetCore.Authorization; // <<<< ДОДАНО
-using Optional; // Для Optional<T>
+using Api.Dtos;
+using Application.Reviews.Commands;
+using Application.Reviews.Exceptions;
+using Application.Common.Interfaces.Queries;
+using Domain.Reviews;
+using Domain.Listings;
+using Domain.Users;
+using Api.Modules.Errors;
+using Microsoft.AspNetCore.Authorization;
+using Optional;
 
 namespace Api.Controllers
 {
-    [Route("api")] // Базовий маршрут для гнучкості
+    [Route("api")]
     [ApiController]
     public class ReviewsController : ControllerBase
     {
@@ -32,8 +32,7 @@ namespace Api.Controllers
             _reviewsQueries = reviewsQueries ?? throw new ArgumentNullException(nameof(reviewsQueries));
         }
 
-        // GET: api/reviews/{reviewId}
-        [HttpGet("reviews/{reviewId:guid}", Name = "GetReviewById")] // Додано Name для CreatedAtAction
+        [HttpGet("reviews/{reviewId:guid}", Name = "GetReviewById")]
         [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ReviewDto>> GetReviewById([FromRoute] Guid reviewId, CancellationToken cancellationToken)
@@ -46,7 +45,6 @@ namespace Api.Controllers
             );
         }
 
-        // GET: api/listings/{listingId}/reviews
         [HttpGet("listings/{listingId:guid}/reviews")]
         [ProducesResponseType(typeof(IReadOnlyList<ReviewDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ReviewDto>>> GetReviewsForListing([FromRoute] Guid listingId, CancellationToken cancellationToken)
@@ -56,7 +54,6 @@ namespace Api.Controllers
             return Ok(reviewDtos);
         }
 
-        // GET: api/users/{userId}/reviews
         [HttpGet("users/{userId:guid}/reviews")]
         [ProducesResponseType(typeof(IReadOnlyList<ReviewDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ReviewDto>>> GetReviewsByUser([FromRoute] Guid userId, CancellationToken cancellationToken)
@@ -66,24 +63,21 @@ namespace Api.Controllers
             return Ok(reviewDtos);
         }
 
-        // POST: api/listings/{listingId}/reviews
         [HttpPost("listings/{listingId:guid}/reviews")]
-        [Authorize] // <<<< РОЗКОМЕНТОВАНО: Цей метод вимагає авторизації
+        [Authorize]
         [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)] // Якщо оголошення не знайдено
-        [ProducesResponseType(StatusCodes.Status409Conflict)] // Якщо користувач не може залишити відгук
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateReviewForListing(
             [FromRoute] Guid listingId,
             [FromBody] CreateReviewDto requestDto,
             CancellationToken cancellationToken)
         {
-            // ОТРИМУЄМО UserId З КОНТЕКСТУ АУТЕНТИФІКОВАНОГО КОРИСТУВАЧА
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {
-                // Якщо користувач не автентифікований або ID неправильний (хоча [Authorize] має це відфільтрувати)
                 return Unauthorized(new { Message = "User is not authenticated or user ID is invalid." });
             }
 
@@ -92,7 +86,7 @@ namespace Api.Controllers
                 ListingId = listingId,
                 Rating = requestDto.Rating,
                 Comment = requestDto.Comment,
-                UserId = authenticatedUserId // <<<< ТЕПЕР ВИКОРИСТОВУЄМО РЕАЛЬНИЙ ID АУТЕНТИФІКОВАНОГО КОРИСТУВАЧА
+                UserId = authenticatedUserId
             };
 
             var result = await _sender.Send(command, cancellationToken);
@@ -103,9 +97,8 @@ namespace Api.Controllers
             );
         }
 
-        // PUT: api/reviews/{reviewId}
         [HttpPut("reviews/{reviewId:guid}")]
-        [Authorize] // <<<< РОЗКОМЕНТОВАНО
+        [Authorize]
         [ProducesResponseType(typeof(ReviewDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -115,7 +108,6 @@ namespace Api.Controllers
             [FromBody] UpdateReviewDto requestDto,
             CancellationToken cancellationToken)
         {
-            // ОТРИМУЄМО RequestingUserId З КОНТЕКСТУ АУТЕНТИФІКОВАНОГО КОРИСТУВАЧА
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {
@@ -138,9 +130,8 @@ namespace Api.Controllers
             );
         }
 
-        // DELETE: api/reviews/{reviewId}
         [HttpDelete("reviews/{reviewId:guid}")]
-        [Authorize] // <<<< РОЗКОМЕНТОВАНО
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -148,7 +139,6 @@ namespace Api.Controllers
             [FromRoute] Guid reviewId,
             CancellationToken cancellationToken)
         {
-            // ОТРИМУЄМО RequestingUserId З КОНТЕКСТУ АУТЕНТИФІКОВАНОГО КОРИСТУВАЧА
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid authenticatedUserId))
             {

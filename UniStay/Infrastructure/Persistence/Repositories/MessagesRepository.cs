@@ -1,9 +1,8 @@
-// Файл: Infrastructure/Persistence/Repositories/MessagesRepository.cs
-using Application.Common.Interfaces.Queries; // <--- ДОДАНО
+using Application.Common.Interfaces.Queries;
 using Application.Common.Interfaces.Repositories;
 using Domain.Messages;
 using Domain.Users;
-using Infrastructure.Persistence; // <--- ДОДАНО
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Optional;
 using Optional.Async.Extensions;
@@ -15,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class MessagesRepository : IMessagesRepository, IMessagesQueries // <--- ДОДАНО IMessagesQueries
+    public class MessagesRepository : IMessagesRepository, IMessagesQueries
     {
         private readonly ApplicationDbContext _context;
 
@@ -24,7 +23,6 @@ namespace Infrastructure.Persistence.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        // --- Методи IMessagesRepository ---
         public async Task<Message> Add(Message message, CancellationToken cancellationToken)
         {
             await _context.Messages.AddAsync(message, cancellationToken);
@@ -46,22 +44,18 @@ namespace Infrastructure.Persistence.Repositories
             return message;
         }
         
-        // GetById для IMessagesRepository
         async Task<Option<Message>> IMessagesRepository.GetById(MessageId id, CancellationToken cancellationToken)
         {
-            // Для команд може бути достатньо без Include, якщо оновлюється тільки сам Message
             var message = await _context.Messages.FirstOrDefaultAsync(m => m.Id == id, cancellationToken);
             return message.SomeNotNull();
         }
 
-        // --- Методи IMessagesQueries ---
-        // GetById для IMessagesQueries
         async Task<Option<Message>> IMessagesQueries.GetById(MessageId id, CancellationToken cancellationToken)
         {
             var message = await _context.Messages
                 .AsNoTracking()
-                .Include(m => m.Sender)   // Для MessageDto
-                .Include(m => m.Receiver) // Для MessageDto
+                .Include(m => m.Sender)
+                .Include(m => m.Receiver)
                 .FirstOrDefaultAsync(m => m.Id == id, cancellationToken);
             return message.SomeNotNull();
         }

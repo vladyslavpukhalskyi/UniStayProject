@@ -1,4 +1,3 @@
-// Файл: Application/Amenities/Commands/UpdateAmenityCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Amenities.Commands

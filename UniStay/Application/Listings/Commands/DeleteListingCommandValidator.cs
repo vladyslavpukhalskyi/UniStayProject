@@ -1,4 +1,3 @@
-// Файл: Application/Listings/Commands/DeleteListingCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Listings.Commands

@@ -1,4 +1,3 @@
-// Файл: Application/ListingImages/Commands/DeleteListingImageCommandValidator.cs
 using FluentValidation;
 
 namespace Application.ListingImages.Commands

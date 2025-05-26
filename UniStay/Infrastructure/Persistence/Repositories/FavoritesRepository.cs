@@ -1,4 +1,3 @@
-// Файл: Infrastructure/Persistence/Repositories/FavoritesRepository.cs
 using Application.Common.Interfaces.Queries;
 using Application.Common.Interfaces.Repositories;
 using Domain.Favorites;
@@ -25,7 +24,6 @@ namespace Infrastructure.Persistence.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        // --- Методи IFavoritesRepository ---
         public async Task<Favorite> Add(Favorite favorite, CancellationToken cancellationToken)
         {
             await _context.Favorites.AddAsync(favorite, cancellationToken);
@@ -59,12 +57,11 @@ namespace Infrastructure.Persistence.Repositories
         public async Task<Option<Favorite>> GetByListingIdAsync(ListingId listingId, CancellationToken cancellationToken)
         {
             return await _context.Favorites
-                .Include(f => f.Users) 
+                .Include(f => f.Users)
                 .FirstOrDefaultAsync(f => f.ListingId == listingId, cancellationToken)
                 .SomeNotNullAsync();
         }
 
-        // --- Методи IFavoritesQueries ---
         public async Task<IReadOnlyList<Favorite>> GetAll(CancellationToken cancellationToken)
         {
             return await _context.Favorites
@@ -89,8 +86,8 @@ namespace Infrastructure.Persistence.Repositories
             return await _context.Favorites
                 .Where(f => f.Users.Any(u => u.Id == userId))
                 .AsNoTracking()
-                .Include(f => f.Listing) 
-                .Include(f => f.Users) // Додамо, якщо FavoriteDto також показує інших користувачів
+                .Include(f => f.Listing)
+                .Include(f => f.Users)
                 .ToListAsync(cancellationToken);
         }
 

@@ -1,4 +1,3 @@
-// Файл: Application/Amenities/Commands/DeleteAmenityCommandValidator.cs
 using FluentValidation;
 
 namespace Application.Amenities.Commands
