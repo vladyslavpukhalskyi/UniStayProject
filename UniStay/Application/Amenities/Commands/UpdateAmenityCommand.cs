@@ -14,7 +14,7 @@ namespace Application.Amenities.Commands
     {
         public required Guid AmenityId { get; init; }
 
-        public required string Title { get; init; }
+        public string? Title { get; init; }
     }
 
     public class UpdateAmenityCommandHandler(
@@ -30,7 +30,7 @@ namespace Application.Amenities.Commands
             return await existingAmenityOption.Match<Task<Result<Amenity, AmenityException>>>(
                 some: async amenityToUpdate => 
                 {
-                    if (!string.Equals(amenityToUpdate.Title, request.Title, StringComparison.OrdinalIgnoreCase))
+                    if (request.Title != null && !string.Equals(amenityToUpdate.Title, request.Title, StringComparison.OrdinalIgnoreCase))
                     {
                         var conflictingAmenityOption = await amenitiesRepository.GetByTitleAsync(request.Title, cancellationToken);
 
@@ -70,7 +70,10 @@ namespace Application.Amenities.Commands
         {
             try
             {
-                amenity.UpdateTitle(request.Title);
+                if (request.Title != null)
+                {
+                    amenity.UpdateTitle(request.Title);
+                }
 
                 var updatedAmenity = await amenitiesRepository.Update(amenity, cancellationToken);
                 return updatedAmenity; 

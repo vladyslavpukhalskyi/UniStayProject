@@ -14,16 +14,26 @@ namespace Application.Chats.Commands
                 .NotEmpty()
                 .WithMessage("User ID is required.");
 
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                .WithMessage("Chat name is required.")
-                .MaximumLength(100)
-                .WithMessage("Chat name must not exceed 100 characters.");
+            When(x => x.Name != null, () =>
+            {
+                RuleFor(x => x.Name!)
+                    .NotEmpty()
+                    .WithMessage("Chat name must not be empty when provided.")
+                    .MaximumLength(100)
+                    .WithMessage("Chat name must not exceed 100 characters.");
+            });
 
-            RuleFor(x => x.Description)
-                .MaximumLength(500)
-                .WithMessage("Chat description must not exceed 500 characters.")
-                .When(x => !string.IsNullOrEmpty(x.Description));
+            When(x => x.Description != null, () =>
+            {
+                RuleFor(x => x.Description!)
+                    .MaximumLength(500)
+                    .WithMessage("Chat description must not exceed 500 characters.");
+            });
+
+            RuleFor(x => new object?[] { x.Name, x.Description }
+                .Any(v => v != null))
+                .Equal(true)
+                .WithMessage("At least one field must be provided for update.");
         }
     }
 }

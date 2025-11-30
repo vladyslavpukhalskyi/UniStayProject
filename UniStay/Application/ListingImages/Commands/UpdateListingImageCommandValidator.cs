@@ -13,10 +13,13 @@ namespace Application.ListingImages.Commands
             RuleFor(x => x.RequestingUserId)
                 .NotEmpty().WithMessage("Ідентифікатор користувача (RequestingUserId) є обов'язковим (має встановлюватися сервером).");
 
-            RuleFor(x => x.NewImageUrl)
-                .NotEmpty().WithMessage("Новий URL зображення є обов'язковим.")
-                .MaximumLength(2048).WithMessage("URL зображення не може перевищувати 2048 символів.")
-                .Must(BeAValidUrl).WithMessage("Надано недійсний URL зображення.");
+            When(x => x.NewImageUrl != null, () =>
+            {
+                RuleFor(x => x.NewImageUrl!)
+                    .NotEmpty().WithMessage("Новий URL зображення не може бути порожнім.")
+                    .MaximumLength(2048).WithMessage("URL зображення не може перевищувати 2048 символів.")
+                    .Must(BeAValidUrl).WithMessage("Надано недійсний URL зображення.");
+            });
         }
 
         private bool BeAValidUrl(string url)

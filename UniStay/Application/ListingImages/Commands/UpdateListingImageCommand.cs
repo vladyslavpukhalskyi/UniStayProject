@@ -15,7 +15,7 @@ namespace Application.ListingImages.Commands
     {
         public required Guid ListingImageId { get; init; }
 
-        public required string NewImageUrl { get; init; }
+        public string? NewImageUrl { get; init; }
 
         public required Guid RequestingUserId { get; init; }
     }
@@ -66,7 +66,10 @@ namespace Application.ListingImages.Commands
         {
             try
             {
-                listingImage.UpdateImageUrl(request.NewImageUrl);
+                if (request.NewImageUrl != null)
+                {
+                    listingImage.UpdateImageUrl(request.NewImageUrl);
+                }
 
                 var updatedImage = await listingImagesRepository.Update(listingImage, cancellationToken);
                 return updatedImage; 

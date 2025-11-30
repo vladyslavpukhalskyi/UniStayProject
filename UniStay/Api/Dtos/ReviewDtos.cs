@@ -44,7 +44,7 @@ namespace Api.Dtos
     );
 
     public record UpdateReviewDto(
-        int Rating,
-        string Comment
+        int? Rating,
+        string? Comment
     );
 }

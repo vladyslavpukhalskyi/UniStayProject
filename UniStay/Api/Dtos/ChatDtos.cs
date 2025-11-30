@@ -1,5 +1,7 @@
 using Domain.Chats;
 using Domain.Users;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Api.Dtos
 {
@@ -17,7 +19,9 @@ namespace Api.Dtos
         DateTime? UpdatedAt,
         bool IsActive,
         int MemberCount,
-        ChatMessageDto? LastMessage)
+        IReadOnlyList<ChatMemberDto> Members,
+        IReadOnlyList<ChatMemberDto> Admins,
+        IReadOnlyList<ChatMemberDto> Owners)
     {
         public static ChatDto FromDomainModel(Chat chat) =>
             new(
@@ -31,8 +35,18 @@ namespace Api.Dtos
                 UpdatedAt: chat.UpdatedAt,
                 IsActive: chat.IsActive,
                 MemberCount: chat.Members.Count(m => m.IsActive),
-                LastMessage: chat.Messages.OrderByDescending(m => m.SentAt).FirstOrDefault() == null ? null : 
-                    ChatMessageDto.FromDomainModel(chat.Messages.OrderByDescending(m => m.SentAt).First())
+                Members: chat.Members
+                    .Where(m => m.IsActive)
+                    .Select(ChatMemberDto.FromDomainModel)
+                    .ToList(),
+                Admins: chat.Members
+                    .Where(m => m.IsActive && m.Role == ChatEnums.ChatMemberRole.Admin)
+                    .Select(ChatMemberDto.FromDomainModel)
+                    .ToList(),
+                Owners: chat.Members
+                    .Where(m => m.IsActive && m.Role == ChatEnums.ChatMemberRole.Owner)
+                    .Select(ChatMemberDto.FromDomainModel)
+                    .ToList()
             );
     }
 
@@ -49,11 +63,10 @@ namespace Api.Dtos
     /// DTO для оновлення чату.
     /// </summary>
     public record UpdateChatRequest(
-        string Name,
+        string? Name,
         string? Description
     );
 
-    
 
     /// <summary>
     /// DTO для відображення інформації про учасника чату.

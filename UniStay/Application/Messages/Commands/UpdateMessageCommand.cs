@@ -14,7 +14,7 @@ namespace Application.Messages.Commands
     {
         public required Guid MessageId { get; init; }
 
-        public required string Text { get; init; }
+        public string? Text { get; init; }
 
         public required Guid RequestingUserId { get; init; }
     }
@@ -52,7 +52,10 @@ namespace Application.Messages.Commands
         {
             try
             {
-                message.UpdateText(request.Text);
+                if (request.Text != null)
+                {
+                    message.UpdateText(request.Text);
+                }
 
                 var updatedMessage = await messagesRepository.Update(message, cancellationToken);
                 return updatedMessage; 

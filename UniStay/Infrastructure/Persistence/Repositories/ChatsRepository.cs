@@ -52,8 +52,6 @@ namespace Infrastructure.Persistence.Repositories
                 .Include(c => c.CreatedBy)
                 .Include(c => c.Members.Where(m => m.IsActive))
                     .ThenInclude(m => m.User)
-                .Include(c => c.Messages.OrderByDescending(m => m.SentAt).Take(1))
-                    .ThenInclude(m => m.Sender)
                 .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
             return chat.SomeNotNull();
         }
@@ -66,8 +64,6 @@ namespace Infrastructure.Persistence.Repositories
                 .Include(c => c.CreatedBy)
                 .Include(c => c.Members.Where(m => m.IsActive))
                     .ThenInclude(m => m.User)
-                .Include(c => c.Messages.OrderByDescending(m => m.SentAt).Take(1))
-                    .ThenInclude(m => m.Sender)
                 .OrderByDescending(c => c.UpdatedAt ?? c.CreatedAt)
                 .ToListAsync(cancellationToken);
         }

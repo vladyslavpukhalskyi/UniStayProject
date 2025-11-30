@@ -12,9 +12,17 @@ namespace Application.Messages.Commands
             RuleFor(x => x.RequestingUserId)
                 .NotEmpty().WithMessage("Ідентифікатор користувача, що запитує (RequestingUserId), є обов'язковим (має встановлюватися сервером).");
 
-            RuleFor(x => x.Text)
-                .NotEmpty().WithMessage("Текст повідомлення не може бути порожнім.")
-                .MaximumLength(1000).WithMessage("Текст повідомлення не може перевищувати 1000 символів."); 
+            When(x => x.Text != null, () =>
+            {
+                RuleFor(x => x.Text!)
+                    .NotEmpty().WithMessage("Текст повідомлення не може бути порожнім.")
+                    .MaximumLength(1000).WithMessage("Текст повідомлення не може перевищувати 1000 символів.");
+            });
+
+            RuleFor(x => new object?[] { x.Text }
+                .Any(v => v != null))
+                .Equal(true)
+                .WithMessage("Потрібно вказати принаймні одне поле для оновлення.");
         }
     }
 }

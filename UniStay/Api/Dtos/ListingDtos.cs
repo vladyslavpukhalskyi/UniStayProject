@@ -69,16 +69,16 @@ namespace Api.Dtos
     );
 
     public record UpdateListingDto(
-        string Title,
-        string Description,
-        string Address,
-        double Latitude,
-        double Longitude,
-        float Price,
-        ListingEnums.ListingType Type,
-        List<ListingEnums.CommunalService> CommunalServices,
-        ListingEnums.OwnershipType Owners,
-        ListingEnums.NeighbourType Neighbours,
-        List<Guid> AmenityIds
+        string? Title,
+        string? Description,
+        string? Address,
+        double? Latitude,
+        double? Longitude,
+        float? Price,
+        ListingEnums.ListingType? Type,
+        List<ListingEnums.CommunalService>? CommunalServices,
+        ListingEnums.OwnershipType? Owners,
+        ListingEnums.NeighbourType? Neighbours,
+        List<Guid>? AmenityIds
     );
 }

@@ -57,7 +57,7 @@ namespace Api.Dtos
     /// Оновлення повідомлень може бути обмеженим або відсутнім у деяких системах.
     /// </summary>
     public record UpdateMessageDto(
-        string Text // Новий текст повідомлення
+        string? Text // Новий текст повідомлення (null = не змінювати)
         // Id повідомлення передається в URL.
     );
 

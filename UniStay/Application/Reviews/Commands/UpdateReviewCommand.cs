@@ -14,8 +14,8 @@ namespace Application.Reviews.Commands
     {
         public required Guid ReviewId { get; init; }
 
-        public required int Rating { get; init; }
-        public required string Comment { get; init; }
+        public int? Rating { get; init; }
+        public string? Comment { get; init; }
 
         public required Guid RequestingUserId { get; init; }
     }
@@ -53,7 +53,9 @@ namespace Application.Reviews.Commands
         {
             try
             {
-                review.UpdateReview(request.Rating, request.Comment);
+                var newRating = request.Rating ?? review.Rating;
+                var newComment = request.Comment ?? review.Comment;
+                review.UpdateReview(newRating, newComment);
 
                 var updatedReview = await reviewsRepository.Update(review, cancellationToken);
                 return updatedReview; 

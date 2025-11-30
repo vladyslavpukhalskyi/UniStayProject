@@ -17,18 +17,18 @@ namespace Application.Listings.Commands
     {
         public required Guid ListingId { get; init; }
 
-        public required string Title { get; init; }
-        public required string Description { get; init; }
-        public required string Address { get; init; }
-        public required double Latitude { get; init; }
-        public required double Longitude { get; init; }
-        public required float Price { get; init; }
-        public required ListingEnums.ListingType Type { get; init; }
-        public required List<ListingEnums.CommunalService> CommunalServices { get; init; }
-        public required ListingEnums.OwnershipType Owners { get; init; }
-        public required ListingEnums.NeighbourType Neighbours { get; init; }
+        public string? Title { get; init; }
+        public string? Description { get; init; }
+        public string? Address { get; init; }
+        public double? Latitude { get; init; }
+        public double? Longitude { get; init; }
+        public float? Price { get; init; }
+        public ListingEnums.ListingType? Type { get; init; }
+        public List<ListingEnums.CommunalService>? CommunalServices { get; init; }
+        public ListingEnums.OwnershipType? Owners { get; init; }
+        public ListingEnums.NeighbourType? Neighbours { get; init; }
 
-        public required List<Guid> AmenityIds { get; init; }
+        public List<Guid>? AmenityIds { get; init; }
 
         public required Guid RequestingUserId { get; init; }
     }
@@ -54,59 +54,84 @@ namespace Application.Listings.Commands
                         return new UserNotAuthorizedForListingOperationException(requestingUserId, listingIdToUpdate, "UpdateListing");
                     }
 
-                    List<Amenity> validAmenities = new List<Amenity>();
-                    if (request.AmenityIds != null && request.AmenityIds.Any())
+                    // Prepare amenity updates if provided
+                    List<Amenity>? validAmenities = null; // null => no changes; empty => clear all; list => replace
+                    if (request.AmenityIds != null)
                     {
-                        var uniqueAmenityIds = request.AmenityIds.Distinct().Select(id => new AmenityId(id)).ToList();
-                         var foundAmenities = new List<Amenity>();
-                        foreach(var amenityId in uniqueAmenityIds) {
-                            var amenityOpt = await amenitiesRepository.GetById(amenityId, cancellationToken);
-                            amenityOpt.Match(
-                                some: amenity => foundAmenities.Add(amenity),
-                                none: () => { } 
-                            );
-                        }
-
-                        if (foundAmenities.Count != uniqueAmenityIds.Count)
+                        if (!request.AmenityIds.Any())
                         {
-                            var foundIds = foundAmenities.Select(a => a.Id.Value);
-                            var invalidIds = request.AmenityIds.Distinct().Where(id => !foundIds.Contains(id));
-                            return new InvalidAmenitiesProvidedException(invalidIds);
+                            validAmenities = new List<Amenity>(); // clear all
                         }
-                        validAmenities = foundAmenities;
+                        else
+                        {
+                            var uniqueAmenityIds = request.AmenityIds.Distinct().Select(id => new AmenityId(id)).ToList();
+                            var foundAmenities = new List<Amenity>();
+                            foreach (var amenityId in uniqueAmenityIds)
+                            {
+                                var amenityOpt = await amenitiesRepository.GetById(amenityId, cancellationToken);
+                                amenityOpt.Match(
+                                    some: amenity => foundAmenities.Add(amenity),
+                                    none: () => { }
+                                );
+                            }
+                            if (foundAmenities.Count != uniqueAmenityIds.Count)
+                            {
+                                var foundIds = foundAmenities.Select(a => a.Id.Value);
+                                var invalidIds = request.AmenityIds.Distinct().Where(id => !foundIds.Contains(id));
+                                return new InvalidAmenitiesProvidedException(invalidIds);
+                            }
+                            validAmenities = foundAmenities;
+                        }
                     }
 
                     try
                     {
+                        // Compute effective values (null => keep existing, empty collection => clear)
+                        var newTitle = request.Title ?? listing.Title;
+                        var newDescription = request.Description ?? listing.Description;
+                        var newAddress = request.Address ?? listing.Address;
+                        var newLatitude = request.Latitude ?? listing.Latitude;
+                        var newLongitude = request.Longitude ?? listing.Longitude;
+                        var newPrice = request.Price ?? listing.Price;
+                        var newType = request.Type ?? listing.Type;
+                        var newCommunal = request.CommunalServices != null
+                            ? new List<ListingEnums.CommunalService>(request.CommunalServices)
+                            : (listing.CommunalServices ?? new List<ListingEnums.CommunalService>());
+                        var newOwners = request.Owners ?? listing.Owners;
+                        var newNeighbours = request.Neighbours ?? listing.Neighbours;
+
                         listing.UpdateDetails(
-                            request.Title,
-                            request.Description,
-                            request.Address,
-                            request.Latitude,
-                            request.Longitude,
-                            request.Price,
-                            request.Type,
-                            request.CommunalServices ?? new List<ListingEnums.CommunalService>(),
-                            request.Owners,
-                            request.Neighbours
+                            newTitle,
+                            newDescription,
+                            newAddress,
+                            newLatitude,
+                            newLongitude,
+                            newPrice,
+                            newType,
+                            newCommunal,
+                            newOwners,
+                            newNeighbours
                         );
 
-                        var amenitiesToRemove = listing.Amenities
-                            .Where(currentAmenity => !validAmenities.Any(newAmenity => newAmenity.Id == currentAmenity.Id))
-                            .ToList(); 
-
-                        var amenitiesToAdd = validAmenities
-                            .Where(newAmenity => !listing.Amenities.Any(currentAmenity => currentAmenity.Id == newAmenity.Id))
-                            .ToList();
-
-                        foreach (var amenityToRemove in amenitiesToRemove)
+                        if (validAmenities != null)
                         {
-                            listing.RemoveAmenity(amenityToRemove);
-                        }
+                            var amenitiesToRemove = listing.Amenities
+                                .Where(currentAmenity => !validAmenities.Any(newAmenity => newAmenity.Id == currentAmenity.Id))
+                                .ToList();
 
-                        foreach (var amenityToAdd in amenitiesToAdd)
-                        {
-                            listing.AddAmenity(amenityToAdd);
+                            var amenitiesToAdd = validAmenities
+                                .Where(newAmenity => !listing.Amenities.Any(currentAmenity => currentAmenity.Id == newAmenity.Id))
+                                .ToList();
+
+                            foreach (var amenityToRemove in amenitiesToRemove)
+                            {
+                                listing.RemoveAmenity(amenityToRemove);
+                            }
+
+                            foreach (var amenityToAdd in amenitiesToAdd)
+                            {
+                                listing.AddAmenity(amenityToAdd);
+                            }
                         }
 
                         var updatedListing = await listingsRepository.Update(listing, cancellationToken);

@@ -19,6 +19,6 @@ namespace Api.Dtos
     );
 
     public record UpdateAmenityDto(
-        string Title
+        string? Title
     );
 }

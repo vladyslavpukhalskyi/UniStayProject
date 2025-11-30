@@ -11,7 +11,7 @@ namespace Application.Chats.Commands
     {
         public required Guid ChatId { get; init; }
         public required Guid UserId { get; init; }
-        public required string Name { get; init; }
+        public string? Name { get; init; }
         public string? Description { get; init; }
     }
 
@@ -43,7 +43,9 @@ namespace Application.Chats.Commands
                                     return new InsufficientPermissionsException(userId, chatId, "update chat");
                                 }
 
-                                chat.UpdateDetails(request.Name, request.Description);
+                                var newName = request.Name ?? chat.Name;
+                                var newDescription = request.Description ?? chat.Description;
+                                chat.UpdateDetails(newName, newDescription);
 
                                 var updatedChat = await chatsRepository.Update(chat, cancellationToken);
                                 return updatedChat;

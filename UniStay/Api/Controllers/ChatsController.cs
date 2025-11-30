@@ -192,6 +192,57 @@ namespace Api.Controllers
             );
         }
 
+        [HttpPut("{id}/messages/{messageId}")]
+        [ProducesResponseType(typeof(ChatMessageDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ChatMessageDto>> UpdateMessage(Guid id, Guid messageId, [FromBody] SendMessageRequest request, CancellationToken cancellationToken)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            var command = new UpdateChatMessageCommand
+            {
+                ChatId = id,
+                MessageId = messageId,
+                RequestingUserId = userId.Value,
+                Content = request.Content
+            };
+
+            var result = await _sender.Send(command, cancellationToken);
+
+            return result.Match<ActionResult<ChatMessageDto>>(
+                message => Ok(ChatMessageDto.FromDomainModel(message)),
+                error => error.ToActionResult()
+            );
+        }
+
+        [HttpDelete("{id}/messages/{messageId}")]
+        [ProducesResponseType(typeof(ChatMessageDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ChatMessageDto>> DeleteMessage(Guid id, Guid messageId, CancellationToken cancellationToken)
+        {
+            var userId = GetCurrentUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            var command = new DeleteChatMessageCommand
+            {
+                ChatId = id,
+                MessageId = messageId,
+                RequestingUserId = userId.Value
+            };
+
+            var result = await _sender.Send(command, cancellationToken);
+
+            return result.Match<ActionResult<ChatMessageDto>>(
+                message => Ok(ChatMessageDto.FromDomainModel(message)),
+                error => error.ToActionResult()
+            );
+        }
+
         [HttpGet("{id}/members")]
         [ProducesResponseType(typeof(IReadOnlyList<ChatMemberDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
