@@ -1,17 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Api.Dtos;
 using Application.Amenities.Commands;
-using Application.Amenities.Exceptions;
 using Application.Common.Interfaces.Queries;
 using Domain.Amenities;
 using Api.Modules.Errors;
-using Optional;
 
 namespace Api.Controllers
 {
