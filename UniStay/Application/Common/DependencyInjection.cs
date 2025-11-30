@@ -1,9 +1,9 @@
-using Microsoft.Extensions.DependencyInjection; 
-using System.Reflection; 
-using FluentValidation;
+using System.Reflection;
 using Application.Listings.Services;
+using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Application 
+namespace Application.Common 
 {
     public static class DependencyInjection
     {

@@ -4,6 +4,7 @@ using Application.Common.Interfaces.Repositories;
 using Domain.Chats;
 using Domain.Users;
 using MediatR;
+using Optional.Unsafe;
 
 namespace Application.Chats.Commands
 {

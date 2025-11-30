@@ -48,6 +48,8 @@ namespace Infrastructure
             services.AddScoped<IChatMembersRepository, ChatMembersRepository>();
             services.AddScoped<IChatMessagesRepository, ChatMessagesRepository>();
 
+            services.AddScoped<IOstrohLandmarksQueries, OstrohLandmarksRepository>();
+
             return services;
         }
     }

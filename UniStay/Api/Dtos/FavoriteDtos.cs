@@ -1,9 +1,4 @@
 using Domain.Favorites;
-using Domain.Listings;
-using Domain.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Api.Dtos
 {
@@ -11,7 +6,7 @@ namespace Api.Dtos
         Guid Id,
         string Title)
     {
-        public static ListingSummaryDto FromDomainModel(Listing listing) =>
+        public static ListingSummaryDto FromDomainModel(Domain.Listings.Listing listing) =>
             new(
                 Id: listing.Id.Value,
                 Title: listing.Title

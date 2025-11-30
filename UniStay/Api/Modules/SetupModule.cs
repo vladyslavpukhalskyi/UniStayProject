@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using Api.Dtos.Listing;
 
 namespace Api.Modules
 {
@@ -9,6 +10,7 @@ namespace Api.Modules
         public static void SetupApplicationServices(this IServiceCollection services)
         {
             services.AddValidators();
+            services.AddScoped<IListingComparisonDtoMapper, ListingComparisonDtoMapper>();
         }
 
         private static void AddValidators(this IServiceCollection services)

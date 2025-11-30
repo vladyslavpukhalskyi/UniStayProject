@@ -1,8 +1,6 @@
 using Domain.ListingImages;
-using Domain.Listings;
-using System;
 
-namespace Api.Dtos
+namespace Api.Dtos.Listing
 {
     public record ListingImageDto(
         Guid Id,

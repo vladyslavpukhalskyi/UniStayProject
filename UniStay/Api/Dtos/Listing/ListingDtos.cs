@@ -1,14 +1,6 @@
 using Domain.Listings;
-using Domain.Users;
-using Domain.Amenities;
-using Domain.Reviews;
-using Domain.ListingImages;
-using Domain.Favorites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Api.Dtos
+namespace Api.Dtos.Listing
 {
     public record ListingDto(
         Guid Id,
@@ -31,7 +23,7 @@ namespace Api.Dtos
         int FavoriteCount
     )
     {
-        public static ListingDto FromDomainModel(Listing listing) =>
+        public static ListingDto FromDomainModel(Domain.Listings.Listing listing) =>
             new(
                 Id: listing.Id.Value,
                 Title: listing.Title,

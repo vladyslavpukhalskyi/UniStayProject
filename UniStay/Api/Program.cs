@@ -6,6 +6,7 @@ using Application;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Application.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

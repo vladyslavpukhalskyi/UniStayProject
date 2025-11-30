@@ -1,13 +1,7 @@
 using Domain.Chats;
-using Domain.Users;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Api.Dtos
 {
-    /// <summary>
-    /// DTO для відображення інформації про чат.
-    /// </summary>
     public record ChatDto(
         Guid Id,
         string Name,
@@ -49,28 +43,18 @@ namespace Api.Dtos
                     .ToList()
             );
     }
-
-    /// <summary>
-    /// DTO для створення нового чату.
-    /// </summary>
+    
     public record CreateChatRequest(
         string Name,
         string? Description,
         ChatEnums.ChatType Type
     );
-
-    /// <summary>
-    /// DTO для оновлення чату.
-    /// </summary>
+    
     public record UpdateChatRequest(
         string? Name,
         string? Description
     );
-
-
-    /// <summary>
-    /// DTO для відображення інформації про учасника чату.
-    /// </summary>
+    
     public record ChatMemberDto(
         Guid Id,
         Guid ChatId,
@@ -93,10 +77,7 @@ namespace Api.Dtos
                 IsActive: member.IsActive
             );
     }
-
-    /// <summary>
-    /// DTO для відображення повідомлення в чаті.
-    /// </summary>
+    
     public record ChatMessageDto(
         Guid Id,
         Guid ChatId,
@@ -119,17 +100,11 @@ namespace Api.Dtos
                 IsDeleted: message.IsDeleted
             );
     }
-
-    /// <summary>
-    /// DTO для відправлення повідомлення в чат.
-    /// </summary>
+    
     public record SendMessageRequest(
         string Content
     );
-
-    /// <summary>
-    /// DTO для додавання користувача до чату адміністратором/власником.
-    /// </summary>
+    
     public record AddMemberRequest(
         Guid TargetUserId,
         ChatEnums.ChatMemberRole? Role

@@ -1,14 +1,11 @@
 using Domain.Listings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Application.Listings.Services
 {
     public interface IListingComparisonService
     {
         PriceComparison ComparePrices(Listing listing1, Listing listing2);
-        LocationComparison CompareLocations(Listing listing1, Listing listing2);
+        LocationComparison CompareLocations(Listing listing1, Listing listing2, IReadOnlyList<OstrohLandmark> landmarks);
         TypeComparison CompareTypes(Listing listing1, Listing listing2);
         CommunalServicesComparison CompareCommunalServices(Listing listing1, Listing listing2);
         OwnershipComparison CompareOwnership(Listing listing1, Listing listing2);
@@ -40,14 +37,14 @@ namespace Application.Listings.Services
             );
         }
 
-        public LocationComparison CompareLocations(Listing listing1, Listing listing2)
+        public LocationComparison CompareLocations(Listing listing1, Listing listing2, IReadOnlyList<OstrohLandmark> landmarks)
         {
             var directDistance = CalculateDistance(
                 listing1.Latitude, listing1.Longitude,
                 listing2.Latitude, listing2.Longitude
             );
 
-            var landmarkComparisons = OstrohLandmark.AllLandmarks.Select(landmark =>
+            var landmarkComparisons = landmarks.Select(landmark =>
             {
                 var dist1 = landmark.CalculateDistanceTo(listing1.Latitude, listing1.Longitude);
                 var dist2 = landmark.CalculateDistanceTo(listing2.Latitude, listing2.Longitude);

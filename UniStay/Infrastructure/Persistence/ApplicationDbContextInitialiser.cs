@@ -56,11 +56,12 @@ namespace Infrastructure.Persistence
             {
                 await SeedUsersAsync();
                 await SeedAmenitiesAsync();
+                await SeedOstrohLandmarksAsync();
                 await SeedListingsAsync();
                 await SeedReviewsAsync();
                 await SeedListingImagesAsync();
                 await SeedFavoritesAsync();
-                
+
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Database seeding completed successfully.");
             }
@@ -90,7 +91,7 @@ namespace Infrastructure.Persistence
                         "+380501234567",
                         "https://example.com/admin-avatar.jpg"
                     ),
-                    
+
                     // Regular user 1
                     User.New(
                         UserId.New(),
@@ -102,7 +103,7 @@ namespace Infrastructure.Persistence
                         "+380671234567",
                         "https://example.com/user1-avatar.jpg"
                     ),
-                    
+
                     // Regular user 2
                     User.New(
                         UserId.New(),
@@ -141,6 +142,31 @@ namespace Infrastructure.Persistence
             }
         }
 
+        private async Task SeedOstrohLandmarksAsync()
+        {
+            if (!_context.OstrohLandmarks.Any())
+            {
+                _logger.LogInformation("Seeding Ostroh landmarks...");
+
+                var landmarks = new List<OstrohLandmark>
+                {
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Новий корпус Острозької академії", "вул. Семінарська, 2", 50.32917, 26.51278),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Старий корпус Острозької академії", "вул. Семінарська, 2", 50.32833, 26.51278),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "АТБ (Супермаркет)", "вул. Гальшки Острозької, 1в", 50.32729, 26.52463),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Острозький замок", "вул. Академічна, 5", 50.32626, 26.52212),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Нова Пошта (Відділення №1)", "вул. Князів Острозьких, 3", 50.32849, 26.51955),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Укрпошта (Відділення 35800)", "просп. Незалежності, 7", 50.32951, 26.52054),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Татарська вежа", "вул. Татарська", 50.3306, 26.5260),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Автовокзал \"Острог\"", "просп. Незалежності, 166", 50.33557, 26.49400),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Богоявленський собор", "вул. Академічна, 5в", 50.32661, 26.52128),
+                    OstrohLandmark.Create(OstrohLandmarkId.New(), "Гуртожиток \"Академічний дім\" (№5)", "просп. Незалежності, 5", 50.32951, 26.52054)
+                };
+
+                _context.OstrohLandmarks.AddRange(landmarks);
+                _logger.LogInformation($"Seeded {landmarks.Count} Ostroh landmarks.");
+            }
+        }
+
         private async Task SeedListingsAsync()
         {
             if (!_context.Listings.Any())
@@ -156,60 +182,60 @@ namespace Infrastructure.Persistence
                     {
                         Listing.New(
                             ListingId.New(),
-                            "Затишна квартира в центрі Києва",
-                            "Прекрасна 2-кімнатна квартира з сучасним ремонтом та всіма зручностями. Розташована в самому центрі міста, поруч з метро.",
-                            "вул. Хрещатик, 15, Київ",
-                            50.4501,
-                            30.5234,
-                            15000.0f,
-                            ListingEnums.ListingType.Apartment,
+                            "Кімната для студента біля НаУОА",
+                            "Затишна кімната в 5 хвилинах пішки від Острозької академії. Є все необхідне для навчання: стіл, ліжко, шафа, швидкісний інтернет. Cпільна кухня та ванна кімната.",
+                            "вул. Семінарська, 4, Острог",
+                            50.3292,
+                            26.5130,
+                            4500.0f,
+                            ListingEnums.ListingType.Room,
                             regularUsers[0].Id,
                             new List<ListingEnums.CommunalService> { ListingEnums.CommunalService.Included },
-                            ListingEnums.OwnershipType.Without,
+                            ListingEnums.OwnershipType.With,
                             ListingEnums.NeighbourType.With,
                             DateTime.UtcNow.AddDays(-10)
                         ),
-                        
+
                         Listing.New(
                             ListingId.New(),
-                            "Студентська кімната біля НаУКМА",
-                            "Комфортна кімната для студента з усім необхідним. Швидкий інтернет, тиха обстановка для навчання.",
-                            "вул. Сковороди, 2, Київ",
-                            50.4648,
-                            30.5107,
+                            "1-кімнатна квартира в центрі Острога",
+                            "Світла квартира на проспекті Незалежності. Поруч кафе 'Маестро' та 'Карамель', до академії 10-15 хвилин. Встановлено бойлер, є пральна машина.",
+                            "просп. Незалежності, 10, Острог",
+                            50.3300,
+                            26.5165,
                             8000.0f,
-                            ListingEnums.ListingType.Room,
+                            ListingEnums.ListingType.Apartment,
                             regularUsers.Count > 1 ? regularUsers[1].Id : regularUsers[0].Id,
                             new List<ListingEnums.CommunalService> { ListingEnums.CommunalService.Separate },
-                            ListingEnums.OwnershipType.With,
-                            ListingEnums.NeighbourType.With,
+                            ListingEnums.OwnershipType.Without,
+                            ListingEnums.NeighbourType.Without,
                             DateTime.UtcNow.AddDays(-5)
                         ),
-                        
+
                         Listing.New(
                             ListingId.New(),
-                            "Приватний будинок для сім'ї",
-                            "Просторий 3-поверховий будинок з великим садом. Ідеально підходить для великої сім'ї або групи студентів.",
-                            "вул. Садова, 45, Київ",
-                            50.4265,
-                            30.5383,
-                            25000.0f,
+                            "Окремий будинок для групи студентів",
+                            "Здається частина будинку (2 поверхи) в районі 'Нове місто'. Ідеально для 3-4 студентів. Є невеликий власний двір. Окремий вхід.",
+                            "вул. Бельмаж, 15, Острог",
+                            50.3255,
+                            26.5198,
+                            12000.0f,
                             ListingEnums.ListingType.House,
                             regularUsers[0].Id,
-                            new List<ListingEnums.CommunalService> { ListingEnums.CommunalService.Included },
+                            new List<ListingEnums.CommunalService> { ListingEnums.CommunalService.Separate },
                             ListingEnums.OwnershipType.Without,
                             ListingEnums.NeighbourType.Without,
                             DateTime.UtcNow.AddDays(-3)
                         ),
-                        
+
                         Listing.New(
                             ListingId.New(),
-                            "Сучасна квартира в Печерську",
-                            "Нова квартира в елітному районі з панорамним видом на Дніпро. Всі меблі та техніка включені.",
-                            "вул. Липська, 10, Київ",
-                            50.4265,
-                            30.5383,
-                            20000.0f,
+                            "2-кімнатна квартира (район мед. коледжу)",
+                            "Простора квартира з окремими кімнатами. Поруч Острозький медичний коледж. Повністю мебльована, є холодильник та вся необхідна техніка.",
+                            "вул. Карнаухова, 5, Острог",
+                            50.3325,
+                            26.5080,
+                            9500.0f,
                             ListingEnums.ListingType.Apartment,
                             regularUsers.Count > 1 ? regularUsers[1].Id : regularUsers[0].Id,
                             new List<ListingEnums.CommunalService> { ListingEnums.CommunalService.Included },
@@ -217,15 +243,15 @@ namespace Infrastructure.Persistence
                             ListingEnums.NeighbourType.With,
                             DateTime.UtcNow.AddDays(-1)
                         ),
-                        
+
                         Listing.New(
                             ListingId.New(),
-                            "Економ-кімната для студента",
-                            "Бюджетний варіант для студента. Основні зручності є, хороше транспортне сполучення.",
-                            "вул. Політехнічна, 6, Київ",
-                            50.4501,
-                            30.4721,
-                            5500.0f,
+                            "Бюджетне місце на підселення (для хлопця)",
+                            "Шукаємо одного хлопця на підселення в 2-кімнатну квартиру. Район 'Академмістечко', вул. Татарська. Проживання з двома іншими студентами. Оплата + комунальні.",
+                            "вул. Татарська, 7, Острог",
+                            50.3311,
+                            26.5179,
+                            3000.0f,
                             ListingEnums.ListingType.Room,
                             regularUsers[0].Id,
                             new List<ListingEnums.CommunalService> { ListingEnums.CommunalService.Separate },
@@ -261,7 +287,7 @@ namespace Infrastructure.Persistence
                             5,
                             "Чудове місце! Дуже чисто та затишно. Господар дуже привітний та завжди готовий допомогти."
                         ),
-                        
+
                         Review.New(
                             ReviewId.New(),
                             users.Count > 1 ? users[1].Id : users[0].Id,
@@ -269,7 +295,7 @@ namespace Infrastructure.Persistence
                             4,
                             "Гарна кімната, все як на фото. Єдиний мінус - трохи шумно від сусідів."
                         ),
-                        
+
                         Review.New(
                             ReviewId.New(),
                             users[0].Id,
@@ -277,7 +303,7 @@ namespace Infrastructure.Persistence
                             5,
                             "Ідеальний будинок для нашої групи! Багато місця, всі зручності є."
                         ),
-                        
+
                         Review.New(
                             ReviewId.New(),
                             users.Count > 1 ? users[1].Id : users[0].Id,
@@ -285,7 +311,7 @@ namespace Infrastructure.Persistence
                             4,
                             "Дуже гарна квартира з чудовим видом. Рекомендую!"
                         ),
-                        
+
                         Review.New(
                             ReviewId.New(),
                             users[0].Id,
@@ -320,7 +346,7 @@ namespace Infrastructure.Persistence
                             listing.Id,
                             $"https://example.com/listing-{listing.Id.Value}-1.jpg"
                         ));
-                        
+
                         listingImages.Add(ListingImage.New(
                             ListingImageId.New(),
                             listing.Id,

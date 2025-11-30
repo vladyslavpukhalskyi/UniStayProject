@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Api.Dtos;
+using Api.Dtos.Listing;
 using Application.ListingImages.Commands;
 using Application.ListingImages.Exceptions;
 using Application.Common.Interfaces.Queries;
