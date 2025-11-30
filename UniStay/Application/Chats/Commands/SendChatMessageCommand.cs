@@ -1,5 +1,6 @@
 using Application.Common;
 using Application.Common.Interfaces.Repositories;
+using Application.Common.Interfaces.Services;
 using Application.Chats.Exceptions;
 using Domain.Chats;
 using Domain.Users;
@@ -17,7 +18,8 @@ namespace Application.Chats.Commands
     public class SendChatMessageCommandHandler(
         IChatsRepository chatsRepository,
         IChatMessagesRepository chatMessagesRepository,
-        IChatMembersRepository chatMembersRepository
+        IChatMembersRepository chatMembersRepository,
+        IChatNotificationService chatNotificationService
         )
         : IRequestHandler<SendChatMessageCommand, Result<ChatMessage, ChatException>>
     {
@@ -49,6 +51,10 @@ namespace Application.Chats.Commands
                 );
 
                 var addedMessage = await chatMessagesRepository.Add(message, cancellationToken);
+                
+                // Відправляємо real-time сповіщення через SignalR
+                await chatNotificationService.NotifyNewMessage(addedMessage, cancellationToken);
+                
                 return addedMessage;
             }
             catch (Exception exception)

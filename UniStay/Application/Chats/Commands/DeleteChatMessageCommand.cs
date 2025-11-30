@@ -1,6 +1,7 @@
 using Application.Common;
 using Application.Chats.Exceptions;
 using Application.Common.Interfaces.Repositories;
+using Application.Common.Interfaces.Services;
 using Domain.Chats;
 using Domain.Users;
 using MediatR;
@@ -18,7 +19,8 @@ namespace Application.Chats.Commands
     public class DeleteChatMessageCommandHandler(
         IChatsRepository chatsRepository,
         IChatMessagesRepository chatMessagesRepository,
-        IChatMembersRepository chatMembersRepository
+        IChatMembersRepository chatMembersRepository,
+        IChatNotificationService chatNotificationService
     ) : IRequestHandler<DeleteChatMessageCommand, Result<ChatMessage, ChatException>>
     {
         public async Task<Result<ChatMessage, ChatException>> Handle(DeleteChatMessageCommand request, CancellationToken cancellationToken)
@@ -60,6 +62,10 @@ namespace Application.Chats.Commands
 
                 message.Delete();
                 var updated = await chatMessagesRepository.Update(message, cancellationToken);
+                
+                // Відправляємо real-time сповіщення через SignalR
+                await chatNotificationService.NotifyMessageDeleted(chatId, messageId, cancellationToken);
+                
                 return updated;
             }
             catch (Exception ex)

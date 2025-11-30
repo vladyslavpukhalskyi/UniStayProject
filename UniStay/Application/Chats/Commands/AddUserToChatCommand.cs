@@ -1,5 +1,6 @@
 using Application.Common;
 using Application.Common.Interfaces.Repositories;
+using Application.Common.Interfaces.Services;
 using Application.Chats.Exceptions;
 using Domain.Chats;
 using Domain.Users;
@@ -18,7 +19,8 @@ namespace Application.Chats.Commands
     public class AddUserToChatCommandHandler(
         IChatsRepository chatsRepository,
         IChatMembersRepository chatMembersRepository,
-        IUsersRepository usersRepository
+        IUsersRepository usersRepository,
+        IChatNotificationService chatNotificationService
         ) : IRequestHandler<AddUserToChatCommand, Result<ChatMember, ChatException>>
     {
         public async Task<Result<ChatMember, ChatException>> Handle(AddUserToChatCommand request, CancellationToken cancellationToken)
@@ -56,6 +58,10 @@ namespace Application.Chats.Commands
                                 );
 
                                 var added = await chatMembersRepository.Add(member, cancellationToken);
+                                
+                                // Відправляємо real-time сповіщення через SignalR
+                                await chatNotificationService.NotifyUserJoined(added, cancellationToken);
+                                
                                 return added;
                             },
                             none: () => Task.FromResult<Result<ChatMember, ChatException>>(new UserNotMemberException(requestorId, chatId))

@@ -1,6 +1,7 @@
 using Application.Common;
 using Application.Chats.Exceptions;
 using Application.Common.Interfaces.Repositories;
+using Application.Common.Interfaces.Services;
 using Domain.Chats;
 using Domain.Users;
 using MediatR;
@@ -19,7 +20,8 @@ namespace Application.Chats.Commands
     public class UpdateChatMessageCommandHandler(
         IChatsRepository chatsRepository,
         IChatMessagesRepository chatMessagesRepository,
-        IChatMembersRepository chatMembersRepository
+        IChatMembersRepository chatMembersRepository,
+        IChatNotificationService chatNotificationService
     ) : IRequestHandler<UpdateChatMessageCommand, Result<ChatMessage, ChatException>>
     {
         public async Task<Result<ChatMessage, ChatException>> Handle(UpdateChatMessageCommand request, CancellationToken cancellationToken)
@@ -61,6 +63,10 @@ namespace Application.Chats.Commands
 
                 message.EditContent(request.Content);
                 var updated = await chatMessagesRepository.Update(message, cancellationToken);
+                
+                // Відправляємо real-time сповіщення через SignalR
+                await chatNotificationService.NotifyMessageEdited(updated, cancellationToken);
+                
                 return updated;
             }
             catch (Exception ex)

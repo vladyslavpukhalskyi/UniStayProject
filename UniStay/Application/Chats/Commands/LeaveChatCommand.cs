@@ -1,5 +1,6 @@
 using Application.Common;
 using Application.Common.Interfaces.Repositories;
+using Application.Common.Interfaces.Services;
 using Application.Chats.Exceptions;
 using Domain.Chats;
 using Domain.Users;
@@ -15,7 +16,8 @@ namespace Application.Chats.Commands
 
     public class LeaveChatCommandHandler(
         IChatsRepository chatsRepository,
-        IChatMembersRepository chatMembersRepository
+        IChatMembersRepository chatMembersRepository,
+        IChatNotificationService chatNotificationService
         )
         : IRequestHandler<LeaveChatCommand, Result<ChatMember, ChatException>>
     {
@@ -38,6 +40,10 @@ namespace Application.Chats.Commands
                     {
                         member.Leave();
                         var updatedMember = await chatMembersRepository.Update(member, cancellationToken);
+                        
+                        // Відправляємо real-time сповіщення через SignalR
+                        await chatNotificationService.NotifyUserLeft(chatId, userId, cancellationToken);
+                        
                         return updatedMember;
                     },
                     none: () => Task.FromResult<Result<ChatMember, ChatException>>(new UserNotMemberException(userId, chatId))

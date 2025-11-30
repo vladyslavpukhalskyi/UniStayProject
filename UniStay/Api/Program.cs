@@ -9,6 +9,7 @@ using System.Text;
 using Application.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero // Токен вважається дійсним до закінчення терміну дії
         };
+        
+        // Налаштування для SignalR - дозволяємо передавати токен через query string
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+                
+                // Якщо запит до SignalR Hub і є токен у query string
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs/chat"))
+                {
+                    context.Token = accessToken;
+                }
+                
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddAuthorization(); // Обов'язково додаємо сервіси авторизації
@@ -90,7 +109,27 @@ builder.Services.SetupApplicationServices(); // Assuming this is a custom extens
 // 7. Додавання контролерів
 builder.Services.AddControllers();
 
-// 8. Додавання логування
+// 8. Додавання SignalR
+builder.Services.AddSignalR();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:3000",
+            "https://localhost:3000",
+            "http://localhost:5173",
+            "https://localhost:5173",
+            "http://localhost:4200",
+            "https://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+// 9. Додавання логування
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
@@ -121,11 +160,16 @@ else
 
 app.UseHttpsRedirection();
 
+app.UseCors("CorsPolicy");
+
 // ВАЖЛИВО: Увімкніть Authentication та Authorization
 // Це потрібно для роботи з JWT-токенами та атрибутами [Authorize]
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Мапування SignalR Hub
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();
