@@ -23,6 +23,12 @@ namespace Application.Listings.Commands
                 .NotEmpty().WithMessage("Адреса є обов'язковою.")
                 .MaximumLength(500).WithMessage("Адреса не може перевищувати 500 символів.");
 
+            RuleFor(x => x.Latitude)
+                .InclusiveBetween(-90, 90).WithMessage("Широта має бути між -90 та 90 градусами.");
+
+            RuleFor(x => x.Longitude)
+                .InclusiveBetween(-180, 180).WithMessage("Довгота має бути між -180 та 180 градусами.");
+
             RuleFor(x => x.Price)
                 .GreaterThan(0).WithMessage("Ціна має бути більшою за 0.");
 

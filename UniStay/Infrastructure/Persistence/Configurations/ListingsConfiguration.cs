@@ -30,6 +30,12 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(500);
 
+            builder.Property(l => l.Latitude)
+                .IsRequired();
+
+            builder.Property(l => l.Longitude)
+                .IsRequired();
+
             builder.Property(l => l.Price)
                 .IsRequired();
 

@@ -1,35 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj": {}
+    "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Infrastructure\\Infrastructure.csproj": {}
   },
   "projects": {
-    "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj": {
+    "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj",
+        "projectUniqueName": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj",
-        "packagesPath": "C:\\Users\\Ackerman\\.nuget\\packages\\",
-        "outputPath": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\obj\\",
+        "projectPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Application\\Application.csproj",
+        "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ackerman\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj": {
-                "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj"
+              "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Domain\\Domain.csproj"
               }
             }
           }
@@ -38,6 +36,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -107,28 +110,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj": {
+    "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\Ackerman\\.nuget\\packages\\",
-        "outputPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\obj\\",
+        "projectPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ackerman\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -141,6 +142,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -206,39 +212,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Ackerman\\.nuget\\packages\\",
-        "outputPath": "F:\\Навчання\\UniStayProject\\UniStay\\Infrastructure\\obj\\",
+        "projectPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ackerman\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj": {
-                "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Application\\Application.csproj"
+              "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Application\\Application.csproj": {
+                "projectPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Application\\Application.csproj"
               },
-              "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj": {
-                "projectPath": "F:\\Навчання\\UniStayProject\\UniStay\\Domain\\Domain.csproj"
+              "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\Study\\PuhalskyiDyplomna\\UniStay\\Domain\\Domain.csproj"
               }
             }
           }
@@ -247,6 +251,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -342,7 +351,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

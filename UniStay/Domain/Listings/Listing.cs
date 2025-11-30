@@ -12,6 +12,8 @@ namespace Domain.Listings
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string Address { get; private set; }
+        public double Latitude { get; private set; }
+        public double Longitude { get; private set; }
         public float Price { get; private set; }
         public ListingEnums.ListingType Type { get; private set; }
         public UserId UserId { get; private set; }
@@ -25,14 +27,16 @@ namespace Domain.Listings
         public List<ListingImage> ListingImages { get; private set; } = new();
         public List<Favorite> Favorites { get; private set; } = new();
         
-        private Listing(ListingId id, string title, string description, string address, float price,
-                        ListingEnums.ListingType type, UserId userId, List<ListingEnums.CommunalService> communalServices,
+        private Listing(ListingId id, string title, string description, string address, double latitude, double longitude,
+                        float price, ListingEnums.ListingType type, UserId userId, List<ListingEnums.CommunalService> communalServices,
                         ListingEnums.OwnershipType owners, ListingEnums.NeighbourType neighbours, DateTime publicationDate)
         {
             Id = id;
             Title = title;
             Description = description;
             Address = address;
+            Latitude = latitude;
+            Longitude = longitude;
             Price = price;
             Type = type;
             UserId = userId;
@@ -42,18 +46,20 @@ namespace Domain.Listings
             PublicationDate = publicationDate;
         }
 
-        public static Listing New(ListingId id, string title, string description, string address, float price,
-                                  ListingEnums.ListingType type, UserId userId, List<ListingEnums.CommunalService> communalServices,
+        public static Listing New(ListingId id, string title, string description, string address, double latitude, double longitude,
+                                  float price, ListingEnums.ListingType type, UserId userId, List<ListingEnums.CommunalService> communalServices,
                                   ListingEnums.OwnershipType owners, ListingEnums.NeighbourType neighbours, DateTime publicationDate)
-            => new(id, title, description, address, price, type, userId, communalServices, owners, neighbours, publicationDate);
+            => new(id, title, description, address, latitude, longitude, price, type, userId, communalServices, owners, neighbours, publicationDate);
 
-        public void UpdateDetails(string title, string description, string address, float price,
-                                  ListingEnums.ListingType type, List<ListingEnums.CommunalService> communalServices,
+        public void UpdateDetails(string title, string description, string address, double latitude, double longitude,
+                                  float price, ListingEnums.ListingType type, List<ListingEnums.CommunalService> communalServices,
                                   ListingEnums.OwnershipType owners, ListingEnums.NeighbourType neighbours)
         {
             Title = title;
             Description = description;
             Address = address;
+            Latitude = latitude;
+            Longitude = longitude;
             Price = price;
             Type = type;
             CommunalServices = communalServices;

@@ -18,6 +18,8 @@ namespace Application.Listings.Commands
         public required string Title { get; init; }
         public required string Description { get; init; }
         public required string Address { get; init; }
+        public required double Latitude { get; init; }
+        public required double Longitude { get; init; }
         public required float Price { get; init; }
         public required ListingEnums.ListingType Type { get; init; }
         public required List<ListingEnums.CommunalService> CommunalServices { get; init; }
@@ -70,6 +72,8 @@ namespace Application.Listings.Commands
                     title: request.Title,
                     description: request.Description,
                     address: request.Address,
+                    latitude: request.Latitude,
+                    longitude: request.Longitude,
                     price: request.Price,
                     type: request.Type,
                     userId: userId,
