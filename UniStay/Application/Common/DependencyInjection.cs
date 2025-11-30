@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection; 
 using System.Reflection; 
-using FluentValidation; 
+using FluentValidation;
+using Application.Listings.Services;
 
 namespace Application 
 {
@@ -12,6 +13,8 @@ namespace Application
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            services.AddScoped<IListingComparisonService, ListingComparisonService>();
 
             return services;
         }
