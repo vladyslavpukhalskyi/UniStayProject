@@ -22,7 +22,7 @@ namespace Infrastructure.Services
             _audience = config["Jwt:Audience"] ?? throw new InvalidOperationException("Jwt:Audience not found in configuration");
         }
 
-        public string GenerateToken(UserId userId, string email)
+        public string GenerateToken(UserId userId, string email, string role)
         {
             var userIdString = userId.ToString();
 
@@ -30,7 +30,8 @@ namespace Infrastructure.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userIdString),
                 new Claim(JwtRegisteredClaimNames.Email, email),
-                new Claim(ClaimTypes.NameIdentifier, userIdString)
+                new Claim(ClaimTypes.NameIdentifier, userIdString),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature);

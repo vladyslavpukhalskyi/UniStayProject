@@ -17,6 +17,7 @@ namespace Application.Users.Commands
         public required string LastName { get; init; }
         public string? PhoneNumber { get; init; }
         public string? ProfileImage { get; init; }
+        public UserEnums.UserRole? Role { get; init; }
     }
 
     public class UpdateUserCommandHandler(
@@ -57,6 +58,11 @@ namespace Application.Users.Commands
                     request.PhoneNumber ?? userToUpdate.PhoneNumber,
                     request.ProfileImage ?? userToUpdate.ProfileImage
                 );
+
+                if (request.Role.HasValue)
+                {
+                    userToUpdate.ChangeRole(request.Role.Value);
+                }
 
                 var updatedUser = await usersRepository.Update(userToUpdate, cancellationToken);
                 return updatedUser;

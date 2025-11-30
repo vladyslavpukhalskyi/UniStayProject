@@ -41,6 +41,17 @@ namespace Api.Dtos
         string FirstName,
         string LastName,
         string? PhoneNumber,
-        string? ProfileImage
+        string? ProfileImage,
+        UserEnums.UserRole? Role
+    );
+
+    public record AdminCreateUserDto(
+        string FirstName,
+        string LastName,
+        string Email,
+        string Password,
+        string? PhoneNumber,
+        string? ProfileImage,
+        UserEnums.UserRole Role
     );
 }

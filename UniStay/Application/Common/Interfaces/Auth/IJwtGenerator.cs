@@ -5,6 +5,6 @@ namespace Application.Common.Interfaces.Auth
 {
     public interface IJwtGenerator
     {
-        string GenerateToken(UserId userId, string email);
+        string GenerateToken(UserId userId, string email, string role);
     }
 }

@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Application.Users.Commands
 {
-    public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+    public class CreateUserCommandValidator : AbstractValidator<AdminCreateUserCommand>
     {
         public CreateUserCommandValidator()
         {

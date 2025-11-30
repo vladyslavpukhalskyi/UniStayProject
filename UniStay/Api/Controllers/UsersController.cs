@@ -1,17 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Api.Dtos;
 using Application.Users.Commands;
-using Application.Users.Exceptions;
 using Application.Common.Interfaces.Queries;
 using Domain.Users;
 using Api.Modules.Errors;
-using Optional;
 using Application.Auth.Dto;
 using Microsoft.AspNetCore.Authorization;
 
@@ -19,6 +12,7 @@ namespace Api.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     public class UsersController : ControllerBase
     {
         private readonly ISender _sender;
@@ -56,17 +50,17 @@ namespace Api.Controllers
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [AllowAnonymous]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserDto requestDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateUser([FromBody] AdminCreateUserDto requestDto, CancellationToken cancellationToken)
         {
-            var command = new CreateUserCommand
+            var command = new AdminCreateUserCommand
             {
                 FirstName = requestDto.FirstName,
                 LastName = requestDto.LastName,
                 Email = requestDto.Email,
                 Password = requestDto.Password,
                 PhoneNumber = requestDto.PhoneNumber,
-                ProfileImage = requestDto.ProfileImage
+                ProfileImage = requestDto.ProfileImage,
+                Role = requestDto.Role
             };
 
             var result = await _sender.Send(command, cancellationToken);
@@ -77,32 +71,10 @@ namespace Api.Controllers
             );
         }
 
-        [HttpPost("login")]
-        [ProducesResponseType(typeof(AuthResultDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginUser([FromBody] LoginUserDtos requestDto, CancellationToken cancellationToken)
-        {
-            var command = new LoginUserCommand
-            {
-                Email = requestDto.Email,
-                Password = requestDto.Password
-            };
-
-            var result = await _sender.Send(command, cancellationToken);
-
-            return result.Match<IActionResult>(
-                authResult => Ok(authResult),
-                userException => userException.ToObjectResult()
-            );
-        }
-
         [HttpPut("{userId:guid}")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize]
         public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UpdateUserDto requestDto, CancellationToken cancellationToken)
         {
             var command = new UpdateUserCommand
@@ -111,7 +83,8 @@ namespace Api.Controllers
                 FirstName = requestDto.FirstName,
                 LastName = requestDto.LastName,
                 PhoneNumber = requestDto.PhoneNumber,
-                ProfileImage = requestDto.ProfileImage
+                ProfileImage = requestDto.ProfileImage,
+                Role = requestDto.Role
             };
 
             var result = await _sender.Send(command, cancellationToken);
@@ -125,7 +98,6 @@ namespace Api.Controllers
         [HttpDelete("{userId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid userId, CancellationToken cancellationToken)
         {
             var command = new DeleteUserCommand

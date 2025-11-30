@@ -3,12 +3,10 @@ using Application.Common.Interfaces.Auth;
 using Application.Common.Interfaces.Queries;
 using Application.Users.Exceptions;
 using Application.Auth.Dto;
-using Optional;
-using Domain.Users;
-using System;
 using Application.Common;
+using Optional.Unsafe;
 
-namespace Application.Users.Commands
+namespace Application.Auth.Commands
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<AuthResultDto, UserException>>
     {
@@ -26,21 +24,19 @@ namespace Application.Users.Commands
         public async Task<Result<AuthResultDto, UserException>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var userOption = await _usersQueries.GetByEmail(request.Email, cancellationToken);
-
             if (!userOption.HasValue)
             {
                 return Result<AuthResultDto, UserException>.Failure(UserException.InvalidCredentials("Invalid email or password."));
             }
 
-            var user = userOption.ValueOr(() => throw new InvalidOperationException("User was expected but not found."));
+            var user = userOption.ValueOrFailure();
 
             if (!_passwordHash.VerifyPassword(user.Password, request.Password))
             {
                 return Result<AuthResultDto, UserException>.Failure(UserException.InvalidCredentials("Invalid email or password."));
             }
 
-            var token = _jwtGenerator.GenerateToken(user.Id, user.Email);
-
+            var token = _jwtGenerator.GenerateToken(user.Id, user.Email, user.Role.ToString());
             return Result<AuthResultDto, UserException>.Success(new AuthResultDto { Token = token });
         }
     }

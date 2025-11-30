@@ -55,6 +55,11 @@ namespace Domain.Users
             ProfileImage = profileImage;
         }
         
+        public void ChangeRole(UserEnums.UserRole role)
+        {
+            Role = role;
+        }
+        
         public void AddFavorite(Favorite favorite)
         {
             if (!Favorites.Contains(favorite))
@@ -136,3 +141,4 @@ namespace Domain.Users
         }
     }
 }
+
