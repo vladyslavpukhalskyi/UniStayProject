@@ -4,9 +4,6 @@ using Application.Messages.Exceptions;
 using Domain.Messages; 
 using Domain.Users;   
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Messages.Commands
 {

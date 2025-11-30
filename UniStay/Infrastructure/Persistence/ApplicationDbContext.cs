@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Domain.Amenities;
+using Domain.Chats;
 using Domain.Favorites;
 using Domain.ListingImages;
 using Domain.Listings;
@@ -21,6 +22,9 @@ namespace Infrastructure.Persistence
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<ListingImage> ListingImages { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ChatMember> ChatMembers { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

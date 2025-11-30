@@ -42,6 +42,12 @@ namespace Infrastructure
             services.AddScoped<IListingImagesRepository, ListingImagesRepository>();
             services.AddScoped<IListingImagesQueries, ListingImagesRepository>();
 
+            services.AddScoped<IChatsRepository, ChatsRepository>();
+            services.AddScoped<IChatsQueries, ChatsRepository>();
+
+            services.AddScoped<IChatMembersRepository, ChatMembersRepository>();
+            services.AddScoped<IChatMessagesRepository, ChatMessagesRepository>();
+
             return services;
         }
     }

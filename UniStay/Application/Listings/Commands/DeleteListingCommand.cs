@@ -4,9 +4,6 @@ using Application.Listings.Exceptions;
 using Domain.Listings; 
 using Domain.Users;   
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Listings.Commands
 {
