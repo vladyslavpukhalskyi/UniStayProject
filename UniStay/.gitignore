@@ -1,0 +1,71 @@
+# .NET / C#
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+logs/
+*.log
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains Rider / ReSharper
+.idea/
+*.DotSettings.user
+_ReSharper.*/
+ReSharper*/
+
+# Test & Coverage
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.coverage
+*.coveragexml
+coverage*/
+
+# Artifacts
+artifacts/
+BenchmarkDotNet.Artifacts/
+
+# NuGet
+*.nupkg
+packages/
+
+# Publish profiles (user-specific)
+*.pubxml.user
+*.publishsettings
+
+# Azure
+ServiceFabricBackup/
+
+# Database files (local tooling)
+*.mdf
+*.ldf
+*.ndf
+*.dbmdl
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor temp files
+*.swp
+*.tmp
+~$*
+
+# Environment and local secrets
+.env
+.env.*
+appsettings.*.Local.json
+appsettings.Local.json
+
+# Node (if present in any UI subproject)
+node_modules/
+
+# Do NOT ignore EF Core Migrations
+# (keep Infrastructure/Persistence/Migrations in version control)
